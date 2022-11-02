@@ -26,14 +26,15 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char**)
 {
-
+    ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+    setlocale(LC_ALL, "en_US.UTF-8");
 	// Create application window
-	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("booget external"), NULL };
+	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Test"), NULL };
 	::RegisterClassEx(&wc);
-	HWND hwnd = ::CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_LAYERED,wc.lpszClassName, _T("booget external"), WS_POPUP, 0, 0, 50, 50, NULL, NULL, wc.hInstance, NULL);
+	HWND hwnd = ::CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_LAYERED,wc.lpszClassName, _T("Test"), WS_POPUP, 0, 0, 50, 50, NULL, NULL, wc.hInstance, NULL);
 
     // Hide console window
-    ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+   // ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 
 	// Init Direct3d
 	if (!CreateDeviceD3D(hwnd))
@@ -112,13 +113,12 @@ int main(int, char**)
         if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
             ResetDevice();
 
-        Sleep(6);
+        Sleep(1);
     }
 
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
-
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClass(wc.lpszClassName, wc.hInstance);
