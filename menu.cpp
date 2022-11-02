@@ -57,7 +57,7 @@ int Count232;
 
 class initWindow {
 public:
-    const char* window_title = "Asphalt8 Cheeto";
+    const char* window_title = "Asphalt8 Cheeto DEV Version";
     ImVec2 window_size{ 550, 750 };
     
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus;
@@ -67,12 +67,13 @@ public:
 unsigned int Dsd;
 
 unsigned int Camera2 = 0x48;
-
+//0xBC8
 std::vector<unsigned int>ClassOfCarOffsets = { 0x10, 0x10, 0x568, 0x8, 0x10, 0x70, 0x0 };
 std::vector<unsigned int>OffsetsOfOffset12 = { 0x10, 0x10, 0x568 };
 std::vector<unsigned int>CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
 std::vector<unsigned int>Offsets22 = { 0x60, 0x100, 0x48, 0x558, 0x18, 0x50 };
 std::vector<unsigned int>CredsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, 0x618 };
+std::vector<unsigned int>C1redsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, 0x0 };
 std::vector<unsigned int>EntityList = { 0x20, 0x78, 0x20,Dsd , 0x490, 0x0 };
 std::vector<unsigned int>EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 };
 std::vector<unsigned int>OffMenu = { 0x10, 0x8, 0x220, 0x58, 0x10, 0x1a8, 0x560 };
@@ -211,7 +212,7 @@ float Spawnpointx, SpawnPointz , Spawnpointy , rotx, roty, rotz;
 float t1x;
 float t1z;
 float EntityTime = 0.05;
-float xﬂl, zﬂl, yﬂl;
+float x√ül, z√ül, y√ül;
 float t2x;
 float t2z;
 float radius;
@@ -424,7 +425,6 @@ void FreeEverything() {
     AutoWin = NULL;
     MenuSd = NULL;
     ffs = NULL;
-    ActivityError = NULL;
     Standart1337Mode, un1337 = NULL;
     SpotifyMode = NULL;
     ShowConsole = NULL;
@@ -580,6 +580,21 @@ void CallFunctionLmao() {
 
 }
 */
+
+
+int sdsd = 897896974;
+
+void Test3() {
+    unsigned int sdsd32 = 0x10;
+    for (uintptr_t i = 140; i < 800; i++)
+    {
+        sdsd32 = sdsd32 * i;
+        sdsd32 = sdsd32 + 0x10;
+        C1redsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, sdsd32 };
+        uintptr_t CreditAddress21 = FindDMAAddy(hProcess, CredsBase, C1redsOfs);
+        WriteProcessMemory(hProcess, (BYTE*)CreditAddress21, &sdsd, sizeof(sdsd), 0);
+    }
+}
 
 
 
@@ -852,6 +867,77 @@ void GetCurrentSong() {
 
 }
 
+/*
+void NullOutBytes(uintptr_t Address1c,int Cycles) {
+    BYTE csd2 = 0x90;
+    for (size_t i = 0; i < Cycles; i++)
+    {
+        WriteProcessMemory(hProcess, (BYTE*)Address1c, &csd2, sizeof(csd2), 0);
+        Address1c = Address1c + 0x1;
+    }
+    csd2 = 0;
+}
+*/
+
+void CheckPatchedBytes() {
+    int Valc;
+    uintptr_t Point22;
+   
+    Point22 = moduleBase + 0x11B5A72;
+    ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+    if (Valc != 2341507216)
+    {
+        GhostInit = false;
+        Valc = 2337292681;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Valc = 2337554825;
+        Point22 = moduleBase + 0x11B5A78;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Valc = 1096302985;
+        Point22 = moduleBase + 0x11B5A7E;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Point22 = moduleBase + 0x1690C9E;
+        Valc = 541135119;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+    }
+
+
+    ReadProcessMemory(hProcess, (BYTE*)NitroAddress, &Valc, sizeof(Valc), 0);
+    if (Valc == 1099993232) {
+        InitNitro = false;
+        Valc = 1090554177;
+        WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &Valc, sizeof(Valc), 0);
+    }
+
+    Point22 = moduleBase + 0x11B60B7;
+    ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+    if (Valc != 541069583)
+    {
+        NoTpBackini = false;
+        Valc = 541069583;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Point22 = moduleBase + 0x11B60E0;
+        Valc = 1349521679;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+    }
+
+
+
+    Point22 = moduleBase + 0x1197D10;
+    ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+    if (Valc != 1225854963) {
+        FovIni = false;
+        Valc = 1225854963;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Point22 = moduleBase + 0x1197D14;
+        byte gf3 = 0x50;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &gf3, sizeof(gf3), 0);
+    }
+
+    Valc = NULL;
+    Point22 = NULL;
+}
+
 void cod() {
     char Textthem;
     tdeg = "";
@@ -1008,47 +1094,48 @@ void CopyEntitys() {
 
     float i2, i3, i4, i82, i83, i84, gk, lb, gj ,gk1, lb1, gj1;
 
+
        if (CurrentEntityfollow != 0) {
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x160, &xﬂl, sizeof(xﬂl), 0);
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x164, &zﬂl, sizeof(zﬂl), 0);
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x168, &yﬂl, sizeof(yﬂl), 0);
-        WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &xﬂl, sizeof(xﬂl), 0);
-        WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &zﬂl, sizeof(zﬂl), 0);
-        WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &yﬂl, sizeof(yﬂl), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x160, &x√ül, sizeof(x√ül), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x164, &z√ül, sizeof(z√ül), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x168, &y√ül, sizeof(y√ül), 0);
+        WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &x√ül, sizeof(x√ül), 0);
+        WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &z√ül, sizeof(z√ül), 0);
+        WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &y√ül, sizeof(y√ül), 0);
         
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &xﬂl, sizeof(xﬂl), 0);
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &zﬂl, sizeof(zﬂl), 0);
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &yﬂl, sizeof(yﬂl), 0);
-        i2 = xﬂl - x16;
-        i3 = yﬂl - y16;
-        i4 = zﬂl - z16;
-        i82 = xﬂl + x16;
-        i83 = yﬂl + y16;
-        i84 = zﬂl + z16;
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &x√ül, sizeof(x√ül), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &z√ül, sizeof(z√ül), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &y√ül, sizeof(y√ül), 0);
+        i2 = x√ül - x16;
+        i3 = y√ül - y16;
+        i4 = z√ül - z16;
+        i82 = x√ül + x16;
+        i83 = y√ül + y16;
+        i84 = z√ül + z16;
         if (i82 <= Reach || i2 >= Reach2 && i83 <= Reach || i3 >= Reach2 && i84 <= Reach || i4 >= Reach2)
         {
-            xﬂl = xﬂl + 4.0f;
-            zﬂl = zﬂl + 4.0f;
-            yﬂl = yﬂl + 1.2f;
-            i2 = xﬂl;
-            i3 = yﬂl;
-            i4 = zﬂl;
+            x√ül = x√ül + 4.0f;
+            z√ül = z√ül + 4.0f;
+            y√ül = y√ül + 1.2f;
+            i2 = x√ül;
+            i3 = y√ül;
+            i4 = z√ül;
 
 
             
 
-            WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &xﬂl, sizeof(xﬂl), 0);
-            WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &zﬂl, sizeof(zﬂl), 0);
-            WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &yﬂl, sizeof(yﬂl), 0);
+            WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x√ül, sizeof(x√ül), 0);
+            WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z√ül, sizeof(z√ül), 0);
+            WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y√ül, sizeof(y√ül), 0);
         }
         
 
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &xﬂl, sizeof(xﬂl), 0);
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &zﬂl, sizeof(zﬂl), 0);
-        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x28, &yﬂl, sizeof(yﬂl), 0);
-        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &xﬂl, sizeof(xﬂl), 0);
-        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrz, &zﬂl, sizeof(zﬂl), 0);
-        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &yﬂl, sizeof(yﬂl), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &x√ül, sizeof(x√ül), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &z√ül, sizeof(z√ül), 0);
+        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x28, &y√ül, sizeof(y√ül), 0);
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &x√ül, sizeof(x√ül), 0);
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrz, &z√ül, sizeof(z√ül), 0);
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &y√ül, sizeof(y√ül), 0);
 
     }
     else
@@ -1121,8 +1208,8 @@ void menu::render()
     if (GetAsyncKeyState(VK_INSERT) & 1) {
         MenuHidden = !MenuHidden;
     }
-
-    if (GetAsyncKeyState(VK_F2) & 1) {
+    
+    if (GetAsyncKeyState(VK_F2) & 1 && DebugMode == true) {
         ShowConsole = !ShowConsole;
         if (ShowConsole == true) {
             ::ShowWindow(::GetConsoleWindow(), SW_SHOW);
@@ -1132,6 +1219,12 @@ void menu::render()
             ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
         }
     }
+   /* if (DebugMode == false && Start_Cheat == true)
+    {
+
+        ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+    }
+    */
 
     if (globals.active)
     {
@@ -1207,14 +1300,14 @@ void menu::render()
                     if (SpotifyMode == true && DebugMode == false) {
                         if (OnlyName == false) {
                             std::string s34d = "Current Song Playing: " + SongFirst;
-                            const char* SafePunja1bi2ﬂ = s34d.data();
-                            ImGui::TextColored(Gucci, SafePunja1bi2ﬂ);
+                            const char* SafePunja1bi2√ü = s34d.data();
+                            ImGui::TextColored(Gucci, SafePunja1bi2√ü);
                             ImGui::Text("");
                         }
                         if (EmptyCharacter == true) {
                             std::string s34d2 = "By: " + tdeg2;
-                            const char* SafePunja1bi2ﬂ1 = s34d2.data();
-                            ImGui::TextColored(Gucci, SafePunja1bi2ﬂ1);
+                            const char* SafePunja1bi2√ü1 = s34d2.data();
+                            ImGui::TextColored(Gucci, SafePunja1bi2√ü1);
                         }
                         ImGui::Text("");
                     }
@@ -1304,7 +1397,7 @@ void menu::render()
                 MenuTextAddress = FindDMAAddy(hProcess, tmp22, OffMenu);
                 EntityLis2t();
                 TickLast2 = TickFirst2 + 200;
-
+                CheckPatchedBytes();
                 GetCurrentSong();
             }
 
@@ -1323,13 +1416,13 @@ void menu::render()
 
                                 if (SpotifyMode == true) {
                                     std::string s34d = "Current Song Playing: " + SongFirst;
-                                    const char* SafePunja1bi2ﬂ = s34d.data();
-                                    ImGui::TextColored(Gucci, SafePunja1bi2ﬂ);
+                                    const char* SafePunja1bi2√ü = s34d.data();
+                                    ImGui::TextColored(Gucci, SafePunja1bi2√ü);
                                     ImGui::Text("");
                                     if (EmptyCharacter == true) {
                                         std::string s34d2 = "By: " + tdeg2;
-                                        const char* SafePunja1bi2ﬂ1 = s34d2.data();
-                                        ImGui::TextColored(Gucci, SafePunja1bi2ﬂ1);
+                                        const char* SafePunja1bi2√ü1 = s34d2.data();
+                                        ImGui::TextColored(Gucci, SafePunja1bi2√ü1);
                                     }
                                     ImGui::Text("");
                                 }
@@ -1378,14 +1471,14 @@ void menu::render()
                             if (SpotifyMode == true && DebugMode == false) {
                                 if (OnlyName == false || AlwaysShowName == true) {
                                     std::string s34d = "Current Song Playing: " + SongFirst;
-                                    const char* SafePunja1bi2ﬂ = s34d.data();
-                                    ImGui::TextColored(Gucci, SafePunja1bi2ﬂ);
+                                    const char* SafePunja1bi2√ü = s34d.data();
+                                    ImGui::TextColored(Gucci, SafePunja1bi2√ü);
                                     ImGui::Text("");
                                 }
                                 if (EmptyCharacter == true || AlwaysShowName == true) {
                                     std::string s34d2 = "By: " + tdeg2;
-                                    const char* SafePunja1bi2ﬂ1 = s34d2.data();
-                                    ImGui::TextColored(Gucci, SafePunja1bi2ﬂ1);
+                                    const char* SafePunja1bi2√ü1 = s34d2.data();
+                                    ImGui::TextColored(Gucci, SafePunja1bi2√ü1);
                                 }
                                 ImGui::Text("");
                             }
@@ -1413,9 +1506,9 @@ void menu::render()
                                 ImGui::Spacing();
                                 ImGui::Checkbox("Instant Stop yeah", &InstantStop);
                                 ImGui::Spacing();
-                                ImGui::Checkbox("Stop Everyone (in your Render ", &LoopTp); 
+                                ImGui::Checkbox("Stop Everyone (in your Render Distance) ", &LoopTp); 
                                 ImGui::Spacing();//CopyOthers CameraObject
-                                ImGui::Checkbox("Fov Changer (Change your Cam to Either Action or to the Steady Cam)", &FovChanger);
+                                ImGui::Checkbox("FOV Changer", &FovChanger);
                                 ImGui::Spacing();//CopyOthers CameraObject
                                 if (FovChanger == true) {
                                     if (FovIni == false) {
@@ -1424,11 +1517,11 @@ void menu::render()
                                     //FovOff = 2425393296
                                         //Asphalt8_x64.exe + 1197D10
                                         unsigned int gf2 = 620900683920;
-                                        uintptr_t dˆm = moduleBase + 0x1197D10;
-                                        WriteProcessMemory(hProcess, (BYTE*)dˆm, &gf2, sizeof(gf2), 0);
-                                        dˆm = moduleBase + 0x1197D14;
+                                        uintptr_t d√∂m = moduleBase + 0x1197D10;
+                                        WriteProcessMemory(hProcess, (BYTE*)d√∂m, &gf2, sizeof(gf2), 0);
+                                        d√∂m = moduleBase + 0x1197D14;
                                         byte gf3 = 0x90;
-                                        WriteProcessMemory(hProcess, (BYTE*)dˆm, &gf3, sizeof(gf3), 0);
+                                        WriteProcessMemory(hProcess, (BYTE*)d√∂m, &gf3, sizeof(gf3), 0);
                                     }
                                     if (Fov == 0.0f)
                                     {
@@ -1439,7 +1532,7 @@ void menu::render()
                                     ImGui::Spacing();
                                     if (Fov != Fov1) {
                                         Fov1 = Fov;
-                                        for (size_t i = 0; i < 18; i++)
+                                        for (size_t i = 0; i < 20; i++)
                                         {
 
                                             Camera2 = 0x10 * i;
@@ -1485,10 +1578,10 @@ void menu::render()
                                     {
                                         FovIni = false;
                                         int gf2 = 1225854963;
-                                        uintptr_t dˆm = moduleBase + 0x1197D14;
+                                        uintptr_t d√∂m = moduleBase + 0x1197D14;
                                         WriteProcessMemory(hProcess, (BYTE*)moduleBase + 0x1197D10, &gf2, sizeof(gf2), 0);
                                         byte gf3 = 0x50;
-                                        WriteProcessMemory(hProcess, (BYTE*)dˆm, &gf3, sizeof(gf3), 0);
+                                        WriteProcessMemory(hProcess, (BYTE*)d√∂m, &gf3, sizeof(gf3), 0);
                                     }
                                 }
                                 ImGui::Checkbox("Tp Every entity there is", &LoopTpEvery);
@@ -1506,9 +1599,7 @@ void menu::render()
                                 if (AutoWin == true) {
                                     ImGui::SliderFloat("Meters until you get Teleported", &Temp1, 100.0f, 5000.0f, 0, 5.0f);
                                     ImGui::Spacing();
-                                }
-                                ImGui::Checkbox("Turn off if you have Perfomance issues (Unlimited Nitro only works then)", &ActivityError);
-                                ImGui::Spacing();/*
+                                }/*
                                 ImGui::SliderFloat("Set Y Pos:", &b2y, -600.0f, 600.0f, 0, 50.0f);
                                 b2y = x16;
                                 if (t2y != b2y && b2y != x16) {
@@ -1516,8 +1607,11 @@ void menu::render()
                                     WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &b2y, sizeof(b2y), 0);
                                 }
                                 */
-                                if(un1337 == true)ImGui::Checkbox("1337 Mode?", &Standart1337Mode);
-                                ImGui::Spacing();
+                                if (un1337 == true) {
+                                    ImGui::Checkbox("1337 Mode?", &Standart1337Mode);
+                                    ImGui::Spacing();
+                                }
+                                
 
                                     ImGui::Checkbox("Debug Mode", &DebugMode);
                                     ImGui::Spacing();
@@ -1570,20 +1664,20 @@ void menu::render()
                                         x1y = i2;
                                         y1y = i3;
                                         z1y = i4;
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &xﬂl, sizeof(xﬂl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &zﬂl, sizeof(zﬂl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x28, &yﬂl, sizeof(yﬂl), 0);
-                                        yﬂl = yﬂl - 0.8f;
-                                        x2y = xﬂl;
-                                        y2y = yﬂl;
-                                        z2y = yﬂl;
+                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &x√ül, sizeof(x√ül), 0);
+                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &z√ül, sizeof(z√ül), 0);
+                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x28, &y√ül, sizeof(y√ül), 0);
+                                        y√ül = y√ül - 0.8f;
+                                        x2y = x√ül;
+                                        y2y = y√ül;
+                                        z2y = y√ül;
 
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &xﬂl, sizeof(xﬂl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &zﬂl, sizeof(zﬂl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &yﬂl, sizeof(yﬂl), 0);
-                                        x3y = xﬂl;
-                                        y3y = yﬂl;
-                                        z3y = zﬂl;
+                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &x√ül, sizeof(x√ül), 0);
+                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &z√ül, sizeof(z√ül), 0);
+                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &y√ül, sizeof(y√ül), 0);
+                                        x3y = x√ül;
+                                        y3y = y√ül;
+                                        z3y = z√ül;
                                     }
                                 }
 
@@ -1664,7 +1758,34 @@ void menu::render()
                                     Spawnpointy = y16 + 2.0f;
                                     Spawnini = true;
                                 }
+                                ImGui::Spacing();/*                                if (ImGui::Button("Test") == true) {
+                                    Test3();
+
+                                }
+                                
                                 ImGui::Spacing();
+                                /*
+                                if (ImGui::Button("Unlock Carrer shit") == true) {
+                                    //Asphalt8_x64.exe+7555A1
+                                    unsigned int sd5 = 2103250315;
+                                    int s3 = 6;
+                                    
+                                    uintptr_t gkgl = moduleBase + 0x7555A1;
+                                    ReadProcessMemory(hProcess, (BYTE*)gkgl, &sd5, sizeof(sd5), 0);
+                                    if (sd5 != 2103250315)
+                                    {
+                                        WriteProcessMemory(hProcess, (BYTE*)gkgl, &sd5, sizeof(sd5), 0);
+                                        
+                                    }
+                                    else
+                                    {
+                                        NullOutBytes(gkgl, s3);
+                                        
+                                    }
+
+                                }
+                                ImGui::Spacing();
+                                */
                                 if (ImGui::Button("Teleport all to you") == true) {
                                     for (size_t i = 0; i < getEntityCount(); i++)
                                     {
@@ -1742,9 +1863,11 @@ void menu::render()
 
                                 ImGui::Spacing();
                                 if (ImGui::Button("Unlock Source of Cheat") == true) {
-                                    Tabs = 3;
-                                }
+                                   // Tabs = 3;
+                                        MessageBox(NULL, L"Turned off because Unknowncheats doesnt allow any External links. My github is somewhere in this thread", L"?????????", MB_OK | MB_SYSTEMMODAL);
 
+                                }
+                                ImGui::Spacing();
                                 if (ImGui::Button("Performance") == true) {
                                     Tabs = 4;
                                 }
@@ -1785,7 +1908,7 @@ void menu::render()
                             }
                             ImGui::Spacing();
                             if (ImGui::Button("Press if Cheat is broken") == true) {
-                                ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(&lastAddra1), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(lastAddra1), 0);
                                 LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
                                 Positionaddrx = LocalPlayerCar + 0x50;
                                 Positionaddrz = LocalPlayerCar + 0x54;
@@ -1796,7 +1919,7 @@ void menu::render()
                                 RotationPositionaddrx = LocalPlayerCar + 0x20;
                                 RotationPositionaddrz = LocalPlayerCar + 0x24;
                                 RotationPositionaddry = LocalPlayerCar + 0x28;
-                                ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(&CarObject), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(CarObject), 0);
                                 CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                                 CarObjectz = CarObjectx + 0x4;
                                 CarObjecty = CarObjectx + 0x8;
@@ -1809,11 +1932,8 @@ void menu::render()
                                 SlowFall = false;
                                 FastFall = false;
                             }
-
                             ImGui::Spacing();
-                            if (ImGui::Button("Get Current Spotify Song") == true) {
-                                GetCurrentSong();
-                            }
+                            
                         }
                         
                             
@@ -1882,6 +2002,7 @@ void menu::render()
                 case 3:
                    ImGui::Begin(iw.window_title, &globals.active, ImGuiWindowFlags_NoResize);
                    {
+                       
                        if (Passright == true) {
                            ImGui::Text("https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus");
                            if (ImGui::Button("Go Back") == true) {
@@ -1986,6 +2107,8 @@ void menu::render()
                         if (ImGui::Button("Go Back") == true) {
                             Tabs = 1;
                         }
+                        ImGui::Spacing();
+                        ImGui::Checkbox("Turn off if you have Perfomance issues (Unlimited Nitro only works then)", &ActivityError);
                     }
 
                     break;
@@ -2064,6 +2187,7 @@ void menu::render()
                     SlowFall = false;
                     FastFall = false;
                     LoopTpToNig = false;
+                    FovChanger = false;
                     InitNitro = false;
                     DerefEntitys();
                     FreeEverything();
@@ -2100,14 +2224,6 @@ void menu::render()
                         CurrentEntityfollow = 0;
                             AutoWin = false;
                             Fov1 = 499.0f;
-                       /* if (LocalPlayerCar < 0x1000000080) {
-                            MainMenu = true;
-                        }
-                        else
-                        {
-                            MainMenu = false;
-                        }
-*/
                         if (Standart1337Mode == false) {
                             Spawnini = false;
                             ffs = true;
@@ -2170,6 +2286,14 @@ void menu::render()
                 else { MenuSd = true;}
                
 
+              if (CarObject < 0x01000000 || CarObject > 0x71000000000) {
+                  MainMenu = true;
+              }
+              else
+              {
+                  MainMenu = false;
+              }
+
             if (ffs == true) {
                 if (TickFirst4 == 0) {
                     TickFirst4 = GetTickCount64();
@@ -2185,6 +2309,23 @@ void menu::render()
                     Spawnpointx = x16;
                     SpawnPointz = z16;
                     Spawnpointy = y16 + 2.0f;
+                    if (FovChanger == true)
+                    {
+                        for (size_t i = 0; i < 20; i++)
+                        {
+
+                            Camera2 = 0x10 * i;
+                            Camera2 = Camera2 + 0x8;
+                            CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
+                            CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
+                            if (CurrentCamera == 0)
+                            {
+                                continue;
+                            }
+                            float FovT = Fov / 100;
+                            WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &FovT, sizeof(FovT), 0);
+                        }
+                    }
                     Spawnini = true;
                     ffs = false;
 
@@ -2306,12 +2447,12 @@ void menu::render()
                     //float xj, yj, zj;xj x1y
                     if (CurrentEntityfollow != 0 && x3y != 0.0f && y3y != 0.0f && z3y != 0.0f) {//&& CurrentEntityfollow != LocalPlayer && CurrentEntityfollow != CarObject) {
                         float i2, i3, i4;
-                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &xﬂl, sizeof(xﬂl), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &zﬂl, sizeof(zﬂl), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &yﬂl, sizeof(yﬂl), 0);
-                        x3y = xﬂl;
-                        y3y = yﬂl - 0.5f;
-                        z3y = zﬂl;
+                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &x√ül, sizeof(x√ül), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &z√ül, sizeof(z√ül), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &y√ül, sizeof(y√ül), 0);
+                        x3y = x√ül;
+                        y3y = y√ül - 0.5f;
+                        z3y = z√ül;
                         WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x3y, sizeof(x3y), 0);
                         WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y3y, sizeof(y3y), 0);
                         WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z3y, sizeof(z3y), 0);
@@ -2351,7 +2492,7 @@ void menu::render()
                     float lp = 0.0f;
                     for (size_t i = 0; i < getEntityCount(); i++)
                     {
-                        if (L12ocalPlayerCar == LocalPlayerCar || CarObject == LocalPlayerCar)continue;
+                        if (L12ocalPlayerCar == LocalPlayer || CarObject == LocalPlayer)continue;
                         if (ToPoland[i].x16 != 0) {
                                 /*
                                 ToPoland[i1].P1ositionaddrx = ToPoland[i1].L1ocalPlayer + 0x50;
