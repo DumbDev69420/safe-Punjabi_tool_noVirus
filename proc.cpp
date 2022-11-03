@@ -1,4 +1,5 @@
 #include "proc.h"
+#include "icl.h"
 
 DWORD GetProcId(const wchar_t* procName){
 	DWORD procId = 0;
@@ -13,7 +14,7 @@ DWORD GetProcId(const wchar_t* procName){
 
 			do
 			{
-				if (!_wcsicmp(procEntry.szExeFile, procName)) {+
+				if (!_wcsicmp(procEntry.szExeFile, procName)) {
 					procId = procEntry.th32ProcessID;
 					break;
 				}
@@ -53,6 +54,22 @@ uintptr_t FindDMAAddy(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> off
 		addr += offsets[i2];
 	}
 	return addr;
+}
+
+
+uintptr_t FindDMAAddy32(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> offsets) {
+	uintptr_t tdm = ptr;
+	uintptr_t tdm1 = 0;
+    int Adpe = 0;
+	ReadProcessMemory(hProc, (BYTE*)tdm, &tdm1, sizeof(tdm1), 0);
+	Adpe = tdm1;
+	ReadProcessMemory(hProc, (BYTE*)Adpe + offsets[0], &tdm1, sizeof(tdm1), 0);
+	Adpe = tdm1;
+	for (unsigned int i2 = 1; i2 < offsets.size(); ++i2) {
+	    ReadProcessMemory(hProc, (BYTE*)Adpe + offsets[i2], &tdm1, sizeof(tdm1), 0);
+		Adpe = tdm1;
+	}
+	return Adpe;
 }
 
 
