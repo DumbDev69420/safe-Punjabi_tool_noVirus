@@ -57,7 +57,7 @@ int Count232;
 
 class initWindow {
 public:
-    const char* window_title = "Asphalt8 Cheeto DEV Version";
+    const char* window_title = "Asphalt8 Cheeto";
     ImVec2 window_size{ 550, 750 };
     
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus;
