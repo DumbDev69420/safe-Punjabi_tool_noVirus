@@ -57,7 +57,7 @@ int Count232;
 
 class initWindow {
 public:
-    const char* window_title = "Asphalt8 Cheeto";
+    const char* window_title = "Asphalt8 Cheeto DEV Version";
     ImVec2 window_size{ 550, 750 };
     
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus;
@@ -77,7 +77,7 @@ std::vector<unsigned int>C1redsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, 0x0 }
 std::vector<unsigned int>EntityList = { 0x20, 0x78, 0x20,Dsd , 0x490, 0x0 };
 std::vector<unsigned int>EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 };
 std::vector<unsigned int>OffMenu = { 0x10, 0x8, 0x220, 0x58, 0x10, 0x1a8, 0x560 };
-std::vector<unsigned int>JoeBidden = { 0x34, 0x3c, 0x20, 0x18, 0x0 };
+std::vector<unsigned int>JoeBidden = { 0x34, 0x30, 0x20, 0x18 };
 //"Asphalt8_x64.exe" + 01DB4CF0
 
 float a3, a4, a5 = 0.1f;
@@ -244,6 +244,8 @@ std::string tdeg;
 std::string tdeg2;
 
 const char* CurrentSong;
+
+DWORD OldProtection;
 
 struct Entity
 {
@@ -465,8 +467,8 @@ void FreeEverything() {
 }
 
 /*
-//a1 = address to value and a2 is value changed to
-void __fastcall ChangeCurrencyAndSo(__int64 a1, int a2)
+//a1 = address to value and a2 is CurrentCurrency - value
+void __fastcall ChangeCurrencyAndSo(uintptr_t a1, int a2)
 {
     int v2; // r8d
     unsigned __int64 v5; // rbx
@@ -491,12 +493,9 @@ void __fastcall ChangeCurrencyAndSo(__int64 a1, int a2)
     char* v24; // rbx
     char* v25; // rax
     char* v26; // rsi
-
-    if (a2)
-    {
         v2 = dword_7FF67056D308;
         v5 = 0i64;
-        v6 = a1 + 1560;
+        v6 = a1 + 0x618;
         v7 = dword_7FF67056D304;
         v8 = dword_7FF67056D308 ^ *(_DWORD*)v6 ^ v6;
         v9 = *(_DWORD*)v6 ^ v6;
@@ -506,20 +505,20 @@ void __fastcall ChangeCurrencyAndSo(__int64 a1, int a2)
         *(_DWORD*)v6 = v2 ^ v6 ^ __ROL4__(v10, v7);
         v12 = dword_7FF67056D30C;
         v13 = dword_7FF67056D310;
-        *(_QWORD*)(v6 + 8) = 0i64;
-        *(_DWORD*)(v6 + 8) = v13 ^ v6 ^ __ROL4__(v10, v12);
+        *(_QWORD*)(v6 + 0x8) = 0i64;
+        *(_DWORD*)(v6 + 0x8) = v13 ^ v6 ^ __ROL4__(v10, v12);
         v14 = dword_7FF67056D308;
         v15 = dword_7FF67056D308 ^ *(_DWORD*)(a1 + 2592) ^ (a1 + 2592);
         v16 = dword_7FF67056D304;
         LODWORD(v6) = *(_DWORD*)v6 ^ v6;
-        *(_QWORD*)(a1 + 2592) = 0i64;
+        *(_QWORD*)(a1 + A20) = 0i64;
         v17 = a2 + __ROR4__(v15, v16);
         v18 = __ROR4__(v14 ^ v6, v16);
-        *(_DWORD*)(a1 + 2592) = v14 ^ (a1 + 2592) ^ __ROL4__(v17, v16);
+        *(_DWORD*)(a1 + A20) = v14 ^ (a1 + A20) ^ __ROL4__(v17, v16);
         v19 = dword_7FF67056D30C;
         v20 = dword_7FF67056D310;
-        *(_QWORD*)(a1 + 2600) = 0i64;
-        *(_DWORD*)(a1 + 2600) = v20 ^ (a1 + 2592) ^ __ROL4__(v17, v19);
+        *(_QWORD*)(a1 + A28) = 0i64;
+        *(_DWORD*)(a1 + A28) = v20 ^ (a1 + A20) ^ __ROL4__(v17, v19);
         *(_BYTE*)(a1 + 33) = 1;
         v21 = (__int64)(*(_QWORD*)(a1 + 16) - *(_QWORD*)(a1 + 8)) >> 3;
         if (v21)
@@ -552,14 +551,13 @@ void __fastcall ChangeCurrencyAndSo(__int64 a1, int a2)
                     {
                         memmove(v24, v26, v25 - v26);
                         *(_QWORD*)(a1 + 16) -= 8i64;
-                        v25 = *(char**)(a1 + 16);
+                        v25 = *(char**)(a1 + 0x10);
                     }
                 } while (v24 != v25);
             }
-            *(_BYTE*)(a1 + 32) = 0;
+            *(a1 + 32) = 0;
         }
-        (**(void(__fastcall***)(__int64))(a1 + 96))(a1 + 96);
-    }
+        void(__fastcall*)(a1 + 0x60);
 }
 */
 
@@ -777,7 +775,7 @@ void DerefEntitys() {
 }
 
 void SameAddress() {
-    int tmpdt = 0;
+    /*int tmpdt = 0;
     uintptr_t tfd = 0;
     if (ReadProcessMemory(hSpotify, (BYTE*)firstAddr, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
     tmpdt = tfd;
@@ -795,6 +793,10 @@ void SameAddress() {
     tmpdt = tfd;
 
     SpotifySongAddress = tmpdt;
+    */
+
+    int OverDupe = FindDMAAddy32(hSpotify, firstAddr, JoeBidden);
+    SpotifySongAddress = OverDupe;
 
     if (SpotifySongAddress != SpotifyTextAddress) {
         SpotifyTextAddress = SpotifySongAddress;
@@ -816,7 +818,7 @@ void GetCurrentSong() {
             ModuleBaseSpotify = GetModuleBaseAddress(SProcID, L"libcef.dll");
             firstAddr = ModuleBaseSpotify + 0x08D060BC;
             //SpotifyTextAddress = FindDMAAddy(hSpotify, firstAddr, JoeBidden);
-            int tmpdt = 0;
+            /*int tmpdt = 0;
             uintptr_t tfd = 0;
             if(ReadProcessMemory(hSpotify, (BYTE*)firstAddr, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
             tmpdt = tfd;
@@ -832,16 +834,20 @@ void GetCurrentSong() {
             //std::cout << "[DEBUG] 4Address: 0x" << std::hex << tmpdt << "\n";
             if (ReadProcessMemory(hSpotify, (BYTE*)tmpdt + 0x18, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
             tmpdt = tfd;
+            */
 
-            SpotifyTextAddress = tmpdt;
+            //SpotifyTextAddress = tmpdt;
+            int OverDupe = FindDMAAddy32(hSpotify, firstAddr, JoeBidden);
+            SpotifyTextAddress = OverDupe;
             std::wstring ddssd; //to_string()
             LPCWSTR Deflord = ddssd.c_str();
             char Textthem;
-            if (DebugMode == true) {
+           if (DebugMode == true) {
+                
                 std::cout << "[DEBUG] SongNameAddr: 0x" << std::hex << SpotifyTextAddress << "\n";
                 std::cout << "[DEBUG] ModuleBase: 0x" << std::hex << ModuleBaseSpotify << "\n";
                 std::cout << "[DEBUG] ProcID: 0x" << std::hex << SProcID << "\n";
-            }
+          }
             TickFirst41 = 0;
             TickLast41 = 0;
           }
@@ -1619,10 +1625,12 @@ void menu::render()
                                     int TempVal;
                                     ReadProcessMemory(hProcess, (BYTE*)CreditAddress2, &TempVal, sizeof(TempVal), 0);
                                     TempVal = TempVal - 1000;
+                                    VirtualProtectEx(hProcess, (BYTE*)CreditAddress2, sizeof(TempVal), 0x40, &OldProtection);
                                     if (WriteProcessMemory(hProcess, (BYTE*)CreditAddress2, &TempVal, sizeof(TempVal), 0) == false) {
                                         if (DebugMode == true) {
                                             MessageBox(NULL, L"Couldnt write", L"?????????", MB_OK | MB_SYSTEMMODAL);
                                         }
+                                        
                                     }
                                 }
                                 ImGui::Spacing();
