@@ -8,6 +8,7 @@
 
 
 #include <fstream>
+#include <Lmcons.h>
 #include <string>
 #include <iostream>
 #include "../../../../borderless-imgui-window-main/borderless-imgui-window-main/icl.h"
@@ -57,7 +58,7 @@ int Count232;
 
 class initWindow {
 public:
-    const char* window_title = "Asphalt8 Cheeto";
+    const char* window_title = "Asphalt8 Cheeto"; //DEV Version";
     ImVec2 window_size{ 550, 750 };
     
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus;
@@ -164,6 +165,7 @@ bool JumpCar = false;
 bool InstantStop = false;
 bool FovChanger = false;
 bool InfiniteNitro1 = false;
+bool MenuChecks = false;
 bool SlowFall = false;
 bool FastFall = false;
 bool InitNitro = false;
@@ -202,6 +204,7 @@ bool CopyOthers = false;
 bool LoopTpEvery = false;
 bool Flipini = false;
 bool FovIni = false;
+bool FlyHac2k = false;
 
 
 float x16, y16, z16;
@@ -723,6 +726,107 @@ int getEntityCount() {
 }
 
 
+float X5, X6;
+
+
+
+void FlyHack(float CamX,float CamY, float CamZ, float PosX,float PosZ, float PosY) {
+   
+    float X;
+    float Y;
+    float Z;
+
+    y161 = -0.001f;
+    WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &y161, sizeof(y161), 0);
+    z161 = -0.001f;
+    WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &z161, sizeof(z161), 0);
+    x161 = -0.001f;
+    WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &x161, sizeof(x161), 0);
+
+    WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &X5, sizeof(X5), 0);
+    WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &X6, sizeof(X6), 0);
+
+    //Right and left
+    if (GetAsyncKeyState(68))
+    {
+        if (X6 == 1.0f) {
+            X6 = -1.0f;
+        }
+        X6 = CamX + 0.111f;
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &X6, sizeof(X6), 0);
+    }
+
+    if (GetAsyncKeyState(65))
+    {
+        if (X6 == -1.0f) {
+            X6 =  1.0f;
+        }
+        X6 = CamX - 0.111f;
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &X6, sizeof(X6), 0);
+    }
+
+    //Up and Down
+    if (GetAsyncKeyState(89))
+    {
+        if (X5 == 1.0f) {
+            X5 = -1.0f;
+        }
+        X5 = CamY + 0.111f;
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &X5, sizeof(X5), 0);
+    }
+
+    if (GetAsyncKeyState(86)& 1)
+    {
+        X5 = 0.0f;
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &X5, sizeof(X5), 0);
+    }
+
+    if (GetAsyncKeyState(88))
+    {
+        if (X5 == -1.0f) {
+            X5 = 1.0f;
+        }
+        X5 = CamY - 0.111f;
+        WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &X5, sizeof(X5), 0);
+    }
+
+    if (GetAsyncKeyState(66))
+    {
+        Y = PosY + 0.111f;
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Y, sizeof(Y), 0);
+    }
+
+    if (GetAsyncKeyState(87))
+    {
+        /*ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].P1ositionaddrx, &ToPoland[Count232].x16, sizeof(ToPoland[Count232].x16), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].P1ositionaddry, &ToPoland[Count232].y16, sizeof(ToPoland[Count232].y16), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].P1ositionaddrz, &ToPoland[Count232].z16, sizeof(ToPoland[Count232].z16), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].V1elcPositionaddrx, &ToPoland[Count232].x161, sizeof(ToPoland[Count232].x161), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].V1elcPositionaddrz, &ToPoland[Count232].z161, sizeof(ToPoland[Count232].z161), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].V1elcPositionaddry, &ToPoland[Count232].y161, sizeof(ToPoland[Count232].y161), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].R1otationPositionaddrx, &ToPoland[Count232].x241, sizeof(ToPoland[Count232].x241), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].R1otationPositionaddry, &ToPoland[Count232].y241, sizeof(ToPoland[Count232].y241), 0);
+                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].R1otationPositionaddrz, &ToPoland[Count232].z241, sizeof(ToPoland[Count232].z241), 0);*/
+        X = PosX + CamX;
+        Y = PosY + CamY;
+        Z = PosZ + CamZ;
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &X, sizeof(X), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Y, sizeof(Y), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &Z, sizeof(Z), 0);
+    }
+
+    if (GetAsyncKeyState(83))
+    {
+        X = PosX - CamX;
+        Y = PosY - CamY;
+        Z = PosZ - CamZ;
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &X, sizeof(X), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Y, sizeof(Y), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &Z, sizeof(Z), 0);
+    }
+    
+
+}
 
 void d3344(HWND hwnd, const std::string& s) {
     OpenClipboard(hwnd);
@@ -774,6 +878,27 @@ void DerefEntitys() {
     Dsd = 0x10;
 }
 
+
+void CleanPc() {
+    if (MessageBoxW(NULL, L"Are you sure you want to Delete all Asphalt 8 safe files?", L"?????????", MB_YESNO | MB_SYSTEMMODAL) == 6) {
+        
+        //Get Username and delete Folder Asphalt8 thats saving data
+
+        char username[UNLEN + 1]; DWORD username_len = UNLEN + 1; GetUserNameA(username, &username_len); int Length = sizeof(username); std::string Amongus; Amongus = "C:\\Users\\"; Amongus = Amongus + username; Amongus = Amongus + "\\AppData\\Local\\Packages\\GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj";
+        if (std::remove(Amongus.c_str()) == 0) {
+            std::cout << "Deleted files";
+           
+        }
+        else
+        {
+            std::cout << "Already deleted?";
+        }
+
+        MessageBoxW(NULL, L"Next open Credential Manager go to Webcredentials and search for Asphalt8 and delete it boom fully cleaned ", L"?????????", MB_YESNO | MB_SYSTEMMODAL);
+        
+    }
+}
+
 void SameAddress() {
     /*int tmpdt = 0;
     uintptr_t tfd = 0;
@@ -807,10 +932,24 @@ void SameAddress() {
 
 void cod();
 
+//HWND ha3ndle;
+
+
+
+// int lxb, lyb;
+
+/*
+void MoveTo231(float X, float Y) {
+    if (X == 0 && Y == 0)
+    {
+        GetMouseMovePointsEx(sizeof(lF3ere), lF3ere1)
+    }
+}
+*/
+
 void GetCurrentSong() {
-
-
-          if (Spotifyini == false) {
+    if (SpotifyMode == true) {
+              if (Spotifyini == false) {
             Spotifyini = true;
             SProcID = GetProcId(L"Spotify.exe");
             hSpotify = 0;
@@ -870,7 +1009,7 @@ void GetCurrentSong() {
                Spotifyini = false;
            }
        }
-
+    }
 }
 
 /*
@@ -1241,10 +1380,11 @@ void menu::render()
             if (GetAsyncKeyState(VK_F4) & 1)AutoStart = false;
             //If Insert pressed menu isnt rendering
             if (InitTick == false) {
+                TickBest = 20;
                 TickFirst1 = GetTickCount64();
                 TickLast1 = TickFirst1 + 500;
                 TickFirst9 = GetTickCount64();
-                TickLast9 = TickFirst9 + 50;
+                TickLast9 = TickFirst9 + 250;
                 InitTick = true;
             }
             if (TickBest == 2) {
@@ -1254,8 +1394,12 @@ void menu::render()
             if (RainbowMode == true) {
                 TickFirst9 = GetTickCount64();
                 if (TickFirst9 >= TickLast9 && SpotifyMode == true) {
-                    GetCurrentSong();
-                    TickLast42 = TickFirst42 + 1500;
+                    TickFirst9 = GetTickCount64();
+                    TickLast42 = TickFirst42 + 700;
+                    if (Spotifyini == false) {
+                        GetCurrentSong();
+                    }
+
                     if (a3 > 1.0f)a3 = 0.1f;
 
                     if (a4 > 1.0f)a4 = 0.1f;
@@ -1267,21 +1411,24 @@ void menu::render()
                     a3 = a3 + 0.01f;
 
                     a4 = a4 + 0.02f;
-                    ;
-
                     Gucci = { a3, a4, a5, a6 };
+                    
                 }
             }
 
             TickFirst1 = GetTickCount64();
             if (TickFirst1 >= TickLast1) {
                 TickFirst1 = GetTickCount64();
-                TickLast1 = TickFirst1 + 500;
+                TickLast1 = TickFirst1 + 1500;
                 procID = GetProcId(L"Asphalt8_x64.exe");
                 if (procID != 0)Start_Cheat = true;
 
                 if (AutoStart == true && procID == 0) {
                     if (system("explorer.exe shell:appsFolder\\GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj!App") == 0 && system("explorer.exe shell:appsFolder\\Microsoft.GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj!App") == 0)MessageBoxW(NULL, L"Couldnt find the Path of Asphalt8 open it yourself", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                }
+                
+                if (SpotifyMode == true) {
+                    GetCurrentSong();
                 }
             }
 
@@ -1327,6 +1474,11 @@ void menu::render()
                     if (ImGui::Button("Open Asphalt") == true) {
                         if (system("explorer.exe shell:appsFolder\\GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj!App") == 0 && system("explorer.exe shell:appsFolder\\Microsoft.GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj!App") == 0)MessageBoxW(NULL, L"Couldnt find the Path of Asphalt8 open it yourself", L"?????????", MB_OK | MB_SYSTEMMODAL);
                     }
+                    ImGui::Spacing();
+                    if (ImGui::Button("Clean system from Ban files") == true) {
+                        CleanPc();
+                    }
+                    ImGui::Spacing();
                 }
                 ImGui::End();
 
@@ -1350,6 +1502,8 @@ void menu::render()
             }
             if (InitData == false) {
                 //Gets Process id and modulebase and so on
+                TickBest = 2;
+                InitTick = false;
                 procID = GetProcId(L"Asphalt8_x64.exe");
                 if (procID == 0) {
                     if (DebugMode == true) {
@@ -1513,6 +1667,8 @@ void menu::render()
                                 ImGui::Checkbox("Instant Stop yeah", &InstantStop);
                                 ImGui::Spacing();
                                 ImGui::Checkbox("Stop Everyone (in your Render Distance) ", &LoopTp); 
+                                ImGui::Spacing();
+                                ImGui::Checkbox("Fly Hack Test (not finished version imma make a better one)", &FlyHac2k);
                                 ImGui::Spacing();//CopyOthers CameraObject
                                 ImGui::Checkbox("FOV Changer", &FovChanger);
                                 ImGui::Spacing();//CopyOthers CameraObject
@@ -1690,7 +1846,7 @@ void menu::render()
                                 }
 
                                 ImGui::Spacing();
-                                if (ImGui::Button("Unlock Win (doesnt work anymore)") == true) {
+                               /* if (ImGui::Button("Unlock Win (doesnt work anymore)") == true) {
                                     float x69, y69, z69;
                                     float x691, y691, z691;
                                     x691 = x16;
@@ -1757,6 +1913,7 @@ void menu::render()
                                     z691 = NULL;
                                 }
                                 ImGui::Spacing();
+                                */
                                 if (ImGui::Button("Force SpawnPoint") == true) {
                                     rotx = x241;
                                     roty = y241;
@@ -1876,6 +2033,10 @@ void menu::render()
 
                                 }
                                 ImGui::Spacing();
+                                if (ImGui::Button("Clean system from Ban files") == true) {
+                                    CleanPc();
+                                }
+                                ImGui::Spacing();
                                 if (ImGui::Button("Performance") == true) {
                                     Tabs = 4;
                                 }
@@ -1941,7 +2102,7 @@ void menu::render()
                                 FastFall = false;
                             }
                             ImGui::Spacing();
-                            
+                           
                         }
                         
                             
@@ -2117,6 +2278,8 @@ void menu::render()
                         }
                         ImGui::Spacing();
                         ImGui::Checkbox("Turn off if you have Perfomance issues (Unlimited Nitro only works then)", &ActivityError);
+                        ImGui::Spacing();
+                        ImGui::Checkbox("Turn on Menu Checks (Improves perfomance but sometimes the check fails, if then go into ingame menu and fixed)", &MenuChecks);
                     }
 
                     break;
@@ -2289,18 +2452,29 @@ void menu::render()
                 }
             }
 
+            if (MenuChecks == true)
+            {
+                if (MenuTextAddress < 0x01000000 || MenuTextAddress > 0x71000000000) { MenuSd = false; }
+                else { MenuSd = true; }
+                if (CarObject < 0x01000000 || CarObject > 0x71000000000) {
+                    MainMenu = true;
+                }
 
-              if (MenuTextAddress < 0x01000000 || MenuTextAddress > 0x71000000000) { MenuSd = false; }
-                else { MenuSd = true;}
-               
+                else
+                {
+                    MainMenu = false;
+                }
+            }
+            else
+            {
+                if (MenuSd == true|| MainMenu == true)
+                {
+                    MenuSd = false;
+                    MainMenu = false;
+                }
+            }
 
-              if (CarObject < 0x01000000 || CarObject > 0x71000000000) {
-                  MainMenu = true;
-              }
-              else
-              {
-                  MainMenu = false;
-              }
+              
 
             if (ffs == true) {
                 if (TickFirst4 == 0) {
@@ -2391,8 +2565,6 @@ void menu::render()
                     Gucci = { a3, a4, a5, a6 };
                 }
             }
-
-
 
 
 
@@ -2496,12 +2668,14 @@ void menu::render()
                 }
 
                 if (LoopTpEvery == true) {
-                    float yp = y16 + 4.9f;
-                    float lp = 0.0f;
-                    for (size_t i = 0; i < getEntityCount(); i++)
+                    if (getEntityCount() != 1 || getEntityCount() != 0)
                     {
-                        if (L12ocalPlayerCar == LocalPlayer || CarObject == LocalPlayer)continue;
-                        if (ToPoland[i].x16 != 0) {
+                        float yp = y16 + 4.9f;
+                        float lp = 0.0f;
+                        for (size_t i = 0; i < getEntityCount(); i++)
+                        {
+                            if (L12ocalPlayerCar == LocalPlayer || CarObject == LocalPlayer)continue;
+                            if (ToPoland[i].x16 != 0) {
                                 /*
                                 ToPoland[i1].P1ositionaddrx = ToPoland[i1].L1ocalPlayer + 0x50;
                                 ToPoland[i1].P1ositionaddrz = ToPoland[i1].L1ocalPlayer + 0x54;
@@ -2523,10 +2697,11 @@ void menu::render()
                                 WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrz, &z21, sizeof(z21), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddry, &y21, sizeof(y21), 0);
                                 //rotation y21
+                            }
+
                         }
-                        
+                        yp = NULL;
                     }
-                    yp = NULL;
                 }
 
                 if (ActivityError == true) {
@@ -2752,6 +2927,26 @@ void menu::render()
                             tm2p = NULL;
                             DSDsdsd1 = NULL;
                         }
+                    }
+
+                    if (FlyHac2k == true)
+                    {
+
+                        /*ReadProcessMemory(hProcess, (BYTE*)Positionaddrx, &x16, sizeof(x16), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)Positionaddry, &y16, sizeof(y16), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)Positionaddrz, &z16, sizeof(z16), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &x161, sizeof(x161), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &z161, sizeof(z161), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &y161, sizeof(y161), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)CarObjectx, &x1621, sizeof(x1621), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)CarObjecty, &y1621, sizeof(y1621), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)CarObjectz, &z1621, sizeof(z1621), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &x241, sizeof(x241), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &y241, sizeof(y241), 0);
+                        ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddrz, &z241, sizeof(z241), 0);
+                if (MainMenu == false) {
+                */
+                        FlyHack(x241, y241, z241, x16, z16, y16);
                     }
 
                     if (InfiniteNitro1 == true) {
