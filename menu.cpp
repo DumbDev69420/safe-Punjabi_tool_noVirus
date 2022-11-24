@@ -202,6 +202,7 @@ bool RainbowMode = true;
 bool Biggers = false;
 bool CopyOthers = false;
 bool LoopTpEvery = false;
+bool AutoCheckBytes = true;
 bool Flipini = false;
 bool FovIni = false;
 bool FlyHac2k = false;
@@ -280,6 +281,26 @@ struct Entity
     bool LocalPlayer;
 };
 
+
+struct Offsets
+{
+    
+    const int RotationOffsetx = 0x20;
+    const int RotationOffsetz = 0x24;
+    const int RotationOffsety = 0x28;
+
+    const int PosxOffset = 0x50;
+    const int PoszOffset = 0x54;
+    const int PosyOffset = 0x58;
+
+    const int VelocityOffsetx = 0x160;
+    const int VelocityOffsetz = 0x164;
+    const int VelocityOffsety = 0x168;
+
+};
+
+
+Offsets Offsetsw;
 Entity ToPoland[120];
 
 
@@ -609,7 +630,7 @@ void EntityLis2t() {
     Dsd = 0x8;
     EntityList = { 0x20, 0x78, 0x20 , Dsd , 0x490, 0x0 };
     EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 }; 
-    uintptr_t Ptr23 = moduleBase + 0x01DCF640;
+    uintptr_t Ptr23 = moduleBase + 0x01DE26A8;//0x01DCF640;
     L12ocalPlayerCar = FindDMAAddy(hProcess, Ptr23, EntityList);
     ReadProcessMemory(hProcess, (BYTE*)L12ocalPlayerCar, &StandartCarVal, sizeof(StandartCarVal), 0);
     
@@ -879,6 +900,57 @@ void DerefEntitys() {
 }
 
 
+
+//Entity1 gets Teleported to Entity
+bool TeleportEntityToEntity(uintptr_t Entity, uintptr_t Entity1) {
+    float x, y, z;
+    float x1, y1, z1;
+
+
+    ReadProcessMemory(hProcess, (BYTE*)Entity + Offsetsw.PosxOffset, &x, sizeof(x), 0);
+    ReadProcessMemory(hProcess, (BYTE*)Entity + Offsetsw.PosyOffset, &y, sizeof(y), 0);
+    ReadProcessMemory(hProcess, (BYTE*)Entity + Offsetsw.PoszOffset, &z, sizeof(z), 0);
+
+    if (x >= 6000000.0f || x <= -6000000.0f ||y >= 6000000.0f || y <= -6000000.0f || z >= 6000000.0f || z <= -6000000.0f)
+    {
+        return false;
+    }
+
+    ReadProcessMemory(hProcess, (BYTE*)Entity1 + Offsetsw.PosxOffset, &x1, sizeof(x1), 0);
+    ReadProcessMemory(hProcess, (BYTE*)Entity1 + Offsetsw.PosyOffset, &y1, sizeof(y1), 0);
+    ReadProcessMemory(hProcess, (BYTE*)Entity1 + Offsetsw.PoszOffset, &z1, sizeof(z1), 0);
+
+    if (x1 >= 6000000.0f || x1 <= -6000000.0f || y1 >= 6000000.0f || y1 <= -6000000.0f || z1 >= 6000000.0f || z1 <= -6000000.0f)
+    {
+        return false;
+    }
+
+    WriteProcessMemory(hProcess, (BYTE*)Entity1 + Offsetsw.PosxOffset, &x, sizeof(x), 0);
+    WriteProcessMemory(hProcess, (BYTE*)Entity1 + Offsetsw.PosyOffset, &y, sizeof(y), 0);
+    WriteProcessMemory(hProcess, (BYTE*)Entity1 + Offsetsw.PoszOffset, &z, sizeof(z), 0);
+
+    x, y, z, x1, y1, z1 = NULL;
+
+    return true;
+}
+
+
+/*
+bool CommandTab(const char* Cmd) {
+    std::string Bis = Cmd;
+    if (Bis.find("ForceCloseGame") != std::string::npos) {
+        TerminateProcess(hProcess, 0);
+        return true;
+    }
+    else 
+    {
+        return true;
+    }
+
+}
+*/
+
+
 void CleanPc() {
     if (MessageBoxW(NULL, L"Are you sure you want to Delete all Asphalt 8 save files? (Will Delete your Progress too)", L"?????????", MB_YESNO | MB_SYSTEMMODAL) == 6) {
         
@@ -1029,43 +1101,39 @@ void NullOutBytes(uintptr_t Address1c,int Cycles) {
 */
 
 void CheckPatchedBytes() {
+    if (AutoCheckBytes == false) {
+        return;
+    }
     int Valc;
     uintptr_t Point22;
    
 
 
-    /*Point22 = moduleBase + 0x15B8242;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                Valc = 2337554825;
-                                Point22 = moduleBase + 0x15B8248;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                Valc = 1096302985;
-                                Point22 = moduleBase + 0x15B824E;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x14, sizeof(x14), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y14, sizeof(y14), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z14, sizeof(z14), 0);
-                                Point22 = moduleBase + 0x16BFBCE;*/
-
-
-
     //Ghostmode off
-    Point22 = moduleBase + 0x15B8242;
+
+
+
+
+    Point22 = moduleBase + 0x15CA0A2;//0x15B8242;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-    if (Valc != 2341507216)
+    if (Valc != 1095780233)
     {
         GhostInit = false;
+        int Valc;
+        Point22 = moduleBase + 0x15CA0A2;//0x15B8242;
+        ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = 2337292681;
-        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);//0x15B8CDC
         Valc = 2337554825;
-        Point22 = moduleBase + 0x15B8248;
+        Point22 = moduleBase + 0x15CA0A8;//0x15B8248; 
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = 1096302985;
-        Point22 = moduleBase + 0x15B824E;
+        Point22 = moduleBase + 0x15CA0AE;//0x15B824E;Asphalt8.exe+ 
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-        Point22 = moduleBase + 0x16BFBCE;
+        Point22 = moduleBase + 0x16D066E;//0x16BFBCE;
         Valc = 541135119;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Valc = NULL;
     }
 
     //unlimited Nitro off
@@ -1080,39 +1148,38 @@ void CheckPatchedBytes() {
 
     //PatchTpBack off
 
-    /*
-    * tm2p = moduleBase + 0x15B88B7;
-                            DSDsdsd1 = 541069583;
-                            WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-                            tm2p = moduleBase + 0x15B88B0;
-*/
-
-    Point22 = moduleBase + 0x15B88B7;
+    
+    Point22 = moduleBase + 0x15CA6E7;//0x15B8CDF;//0x15B88B7;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 109789526)
     {
         NoTpBackini = false;
-        Valc = 109789526;
-        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-        Point22 = moduleBase + 0x15B88B0;
-        Valc = 1349521679;
-        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        uintptr_t tm2p;
+        int DSDsdsd1;
+        tm2p = moduleBase + 0x15CA6E7;
+        DSDsdsd1 = 541069583;
+        WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
+        tm2p = moduleBase + 0x15CA710;
+        DSDsdsd1 = 1349521679;
+        WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
+        tm2p = NULL;
+        DSDsdsd1 = NULL;
     }
-
+    
     
 
-
     //Fov Off
-    Point22 = moduleBase + 0x14788D0;
+    Point22 = moduleBase + 0x1489650;//0x1478CE0;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 1225854963) {
         FovIni = false;
         Valc = 1225854963;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-        Point22 = moduleBase + 0x14788D4;
+        Point22 = moduleBase + 0x1489654;//0x1478CE4;
         byte gf3 = 0x50;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &gf3, sizeof(gf3), 0);
     }
+    
 
     Valc = NULL;
     Point22 = NULL;
@@ -1186,8 +1253,12 @@ void cod() {
                 if (i >= 12) { Overflow = true; }
                 else
                 {
+                    
                     EmptyCharacter = false;
                     tdeg = tdeg + "By";
+                    char Empty23;
+                    ReadProcessMemory(hSpotify, (BYTE*)SpotifyTextAddress + i + 1, &Empty23, sizeof(Empty23), NULL);
+                    if (Empty23 == 0) { tdeg = tdeg + " Somebody lmao"; break; }
                     continue;
                 }
                 continue;
@@ -1558,9 +1629,9 @@ void menu::render()
                     Start_Cheat = false;
                     goto stas;
                 }
-                NitroAddress = moduleBase + 0x65CC24;// 0x5987B4; //0x6C5874;
-                Nitro1Address = moduleBase + 0x65CC44;// 0x5987DA; //0x6C589A;
-                PointerToCurrentLevel = moduleBase + 0x01DCF630;//0x1DB42C0;
+                NitroAddress = moduleBase + 0x8535F4;//0x65CC24;// 0x5987B4; //0x6C5874;
+                Nitro1Address = moduleBase + 0x853634;//0x65CC44;// 0x5987DA; //0x6C589A;
+                PointerToCurrentLevel = moduleBase + 0x01DE2698;//0x01DCF630;//0x01DCF630;//0x1DB42C0;
                 ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(lastAddra1), 0);
                 lastAddra12 = lastAddra1;
                 LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
@@ -1573,12 +1644,12 @@ void menu::render()
                 VelcPositionaddrx = LocalPlayerCar + 0x160;
                 VelcPositionaddrz = LocalPlayerCar + 0x164;
                 VelcPositionaddry = LocalPlayerCar + 0x168;//1AD38
-                AddrsOfCam = moduleBase + 0x01DCF580; //0x01DB4848;
+                AddrsOfCam = moduleBase + 0x01DE25D0;//0x01DCF580; //0x01DB4848;
                 ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(CarObject), 0);
                 CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                 CarObjectz = CarObjectx + 0x4;
                 CarObjecty = CarObjectx + 0x8;
-                CredsBase = moduleBase + 0x01DCF508;//0x01DCF580;// 0x01DB4280;
+                CredsBase = moduleBase + 0x01DE2528;//0x01DCF508;//0x01DCF580;// 0x01DB4280;
                 CreditAddress2 = FindDMAAddy(hProcess, CredsBase, CredsOfs);
                 InitData = true;
                 TickFirst = GetTickCount64();
@@ -1724,10 +1795,10 @@ void menu::render()
                                     //FovOn = 1225854963
                                     //FovOff = 2425393296
                                         //Asphalt8_x64.exe + 1197D10
-                                        unsigned int gf2 = 620900683920;
-                                        uintptr_t döm = moduleBase + 0x14788D0;//0x1197D10;
+                                        unsigned int gf2 = 2425393296;
+                                        uintptr_t döm = moduleBase + 0x1489650;//0x14788D0;//0x1197D10;
                                         WriteProcessMemory(hProcess, (BYTE*)döm, &gf2, sizeof(gf2), 0);
-                                        döm = moduleBase + 0x14788D4;
+                                        döm = moduleBase + 0x1489654;//0x1478CE4;//0x14788D4;
                                         byte gf3 = 0x90;
                                         WriteProcessMemory(hProcess, (BYTE*)döm, &gf3, sizeof(gf3), 0);
                                     }
@@ -1786,8 +1857,8 @@ void menu::render()
                                     {
                                         FovIni = false;
                                         int gf2 = 1225854963;
-                                        uintptr_t döm = moduleBase + 0x14788D4;//0x1197D14;
-                                        WriteProcessMemory(hProcess, (BYTE*)moduleBase + 0x14788D0, &gf2, sizeof(gf2), 0);
+                                        uintptr_t döm = moduleBase + 0x1489654;//0x1478CE0;//0x14788D4;//0x1197D14;
+                                        WriteProcessMemory(hProcess, (BYTE*)moduleBase + 0x1489650, &gf2, sizeof(gf2), 0);
                                         byte gf3 = 0x50;
                                         WriteProcessMemory(hProcess, (BYTE*)döm, &gf3, sizeof(gf3), 0);
                                     }
@@ -2074,8 +2145,8 @@ void menu::render()
 
                                 ImGui::Spacing();
                                 if (ImGui::Button("Unlock Source of Cheat") == true) {
-                                   // Tabs = 3;
-                                        MessageBox(NULL, L"Turned off because Unknowncheats doesnt allow any External links. My github is somewhere in this thread", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                   Tabs = 3;
+                                        
 
                                 }
                                 ImGui::Spacing();
@@ -2178,12 +2249,17 @@ void menu::render()
                             const char* SafePunja1bi = lol12.data();
                             if (ImGui::Button(SafePunjabi) == true) {
                                 i22 = i;
+                                if (TeleportEntityToEntity(ToPoland[i22].L1ocalPlayer, LocalPlayerCar) == false && DebugMode == true) {
+                                    std::cout << "Couldnt Tp Entity was to high up \n";
+                                }
+                                /*
                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &ToPoland[i22].x16, sizeof(ToPoland[i22].x16), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &ToPoland[i22].y16, sizeof(ToPoland[i22].y16), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &ToPoland[i22].z16, sizeof(ToPoland[i22].z16), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &ToPoland[i22].x161, sizeof(ToPoland[i22].x161), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &ToPoland[i22].z161, sizeof(ToPoland[i22].z161), 0);
                                 if (WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &ToPoland[i22].y161, sizeof(ToPoland[i22].y161), 0) == false)EntityLis2t();
+                                */
                             }
                            /* if (ImGui::Button(SafePunja1bi) == true) {
                                 i22 = i;/*
@@ -2326,6 +2402,8 @@ void menu::render()
                         ImGui::Checkbox("Turn off if you have Perfomance issues (Unlimited Nitro only works then)", &ActivityError);
                         ImGui::Spacing();
                         ImGui::Checkbox("Turn on Menu Checks (Improves perfomance but sometimes the check fails, if then go into ingame menu and fixed)", &MenuChecks);
+                        ImGui::Spacing();
+                        ImGui::Checkbox("Auto Check for Patched bytes at start of Gam", &AutoCheckBytes);
                     }
 
                     break;
@@ -2418,7 +2496,6 @@ void menu::render()
 
 
                 if (lastAddra1 != lastAddra12) {
-                    uintptr_t Ptr23 = moduleBase + 0x1DB4398;
                         TickFirst5 = 0;
                         TickLast5 = 0;
                         LoopTp = false;
@@ -2448,9 +2525,8 @@ void menu::render()
                             EntityLis2t();
                         }    
                         if (DebugMode == true) {
-                            std::cout << "[DEBUG] " << std::hex << Spawnini << " 2 Has been set to false  \n";
                             std::cout << "[DEBUG] Level has been changed \n";
-                            std::cout << "[DEBUG] LocalPlayer Address -> 0x" << std::hex << LocalPlayer << "\n";
+                            std::cout << "[DEBUG] LocalPlayer -> 0x" << std::hex << LocalPlayerCar << "\n";
                         }
                 }
                 else
@@ -2485,10 +2561,10 @@ void menu::render()
                             DerefEntitys();
                             EntityLis2t();
                         }
+
                         if (DebugMode == true) {
-                            std::cout << "[DEBUG] " << std::hex << Spawnini << " 1 Has been set to false  \n";
                             std::cout << "[DEBUG] Level has been restarted \n";
-                            std::cout << "[DEBUG] LocalPlayer Address -> 0x" << std::hex << LocalPlayer << "\n";
+                            std::cout << "[DEBUG] LocalPlayer -> 0x" << std::hex << LocalPlayerCar << "\n";
                         }
                     }
                 }
@@ -2868,18 +2944,18 @@ void menu::render()
                                 z16 = z24;
                                 int Valc;
                                 Valc = 2341507216;
-                                Point22 = moduleBase + 0x15B8242;
+                                Point22 = moduleBase + 0x15CA0A2;//0x15B8652;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Valc = 2341507216;
-                                Point22 = moduleBase + 0x15B8248;
+                                Point22 = moduleBase + 0x15CA0A8;//0x15B8658;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Valc = 1099993232;
-                                Point22 = moduleBase + 0x15B824E;
+                                Point22 = moduleBase + 0x15CA0AE;//0x15B865E;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x14, sizeof(x14), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y14, sizeof(y14), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z14, sizeof(z14), 0);
-                                Point22 = moduleBase + 0x16BFBCE;
+                                Point22 = moduleBase + 0x16D066E;
                                 Valc = 2425393296;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
 
@@ -2891,23 +2967,20 @@ void menu::render()
                             else
                             {
                                 int Valc;
-                                Valc = 2337292681;
-                                Point22 = moduleBase + 0x15B8242;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                Valc = 2337554825;
-                                Point22 = moduleBase + 0x15B8248;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                Valc = 1096302985;
-                                Point22 = moduleBase + 0x15B824E;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x14, sizeof(x14), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y14, sizeof(y14), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z14, sizeof(z14), 0);
-                                Point22 = moduleBase + 0x16BFBCE;
-                                Valc = 541135119;
-                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                Valc = NULL;
-                                Point22 = NULL;
+                                Point22 = moduleBase + 0x15CA0A2;//0x15B8242;
+                                ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                    Valc = 2337292681;
+                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);//0x15B8CDC
+                                    Valc = 2337554825;
+                                    Point22 = moduleBase + 0x15CA0A8;//0x15B8248; 
+                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                    Valc = 1096302985;
+                                    Point22 = moduleBase + 0x15CA0AE;//0x15B824E;Asphalt8.exe+ 
+                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                    Point22 = moduleBase + 0x16D066E;//0x16BFBCE;
+                                    Valc = 541135119;
+                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                    Valc = NULL;
                                 GhostInit = false;
                             }
                         }
@@ -2947,10 +3020,20 @@ void menu::render()
                         if (NoTpBackini == false) {
                             uintptr_t tm2p;
                             int DSDsdsd1;
-                            tm2p = moduleBase + 0x15B88B0;
+                            /*
+                            0x15CA736;//0x15B8CDF;//0x15B88B7;
+    ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+    if (Valc != 109789526)
+    {
+        NoTpBackini = false;
+        Valc = 109789526;
+        WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+        Point22 = moduleBase + 0x15CA72F;/
+                            */
+                            tm2p = moduleBase + 0x15CA6E7;//0x15CA736;//0x15B8CD8;
                             DSDsdsd1 = 2425393296;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-                            tm2p = moduleBase + 0x15B88B7;
+                            tm2p = moduleBase + 0x15CA710;//0x15CA72F;// 0x15B8CDF;
                             DSDsdsd1 = 2425393296;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
                             NoTpBackini = true;
@@ -2964,10 +3047,10 @@ void menu::render()
                             NoTpBackini = false;
                             uintptr_t tm2p;
                             int DSDsdsd1;
-                            tm2p = moduleBase + 0x15B88B7;
+                            tm2p = moduleBase + 0x15CA6E7;
                             DSDsdsd1 = 541069583;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-                            tm2p = moduleBase + 0x15B88B0;
+                            tm2p = moduleBase + 0x15CA710;
                             DSDsdsd1 = 1349521679;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
                             tm2p = NULL;
