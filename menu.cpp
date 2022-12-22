@@ -60,7 +60,7 @@ class initWindow {
 public:
     const char* window_title = "Asphalt8 Cheeto"; //DEV Version";
     ImVec2 window_size{ 550, 750 };
-    
+
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus;
 } iw;
 
@@ -77,7 +77,7 @@ std::vector<unsigned int>CredsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, 0x618 
 std::vector<unsigned int>C1redsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, 0x0 };
 std::vector<unsigned int>EntityList = { 0x20, 0x78, 0x20,Dsd , 0x490, 0x0 };
 std::vector<unsigned int>EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 };
-std::vector<unsigned int>OffMenu = { 0x10, 0x8, 0x70, 0x30, 0x1a8, 0x0 };//0x10, 0x8, 0x220, 0x58, 0x10, 0x1a8, 0x560 };
+std::vector<unsigned int>OffMenu = { 0x10, 0x8, 0x70, 0x30, 0x1a8, 0x0};//0x10, 0x8, 0x220, 0x58, 0x10, 0x1a8, 0x560 };
 std::vector<unsigned int>JoeBidden = { 0x34, 0x30, 0x20, 0x18 };
 //"Asphalt8_x64.exe" + 01DB4CF0
 
@@ -98,7 +98,7 @@ uintptr_t lastAddra12;
 uintptr_t CredsBase;
 uintptr_t PointerToCurrentLevel;
 uintptr_t LocalPlayerCar;
-uintptr_t CarObject,CarObjectx, CarObjecty, CarObjectz;
+uintptr_t CarObject, CarObjectx, CarObjecty, CarObjectz;
 uintptr_t AddrsOfCam;
 uintptr_t LevelCar;
 uintptr_t moduleBase;
@@ -180,9 +180,9 @@ bool LoopTp = false;
 bool LoopTpToNig = false;
 bool AutoRefreshEntities = false;
 bool Passright = false;
-bool Lightskin,iniLi = false;
+bool Lightskin, iniLi = false;
 bool DebugMode = false;
-bool DebugModeU2 = true;   
+bool DebugModeU2 = true;
 bool NoTpBack = false;
 bool NoTpBackini = false;
 bool FuncTp = false;
@@ -212,7 +212,7 @@ float x16, y16, z16;
 float x14, y14, z14;
 float x24, y24, z24;
 float x241, y241, z241;
-float Spawnpointx, SpawnPointz , Spawnpointy , rotx, roty, rotz;
+float Spawnpointx, SpawnPointz, Spawnpointy, rotx, roty, rotz;
 float t1x;
 float t1z;
 float EntityTime = 0.05;
@@ -284,7 +284,7 @@ struct Entity
 
 struct Offsets
 {
-    
+
     const int RotationOffsetx = 0x20;
     const int RotationOffsetz = 0x24;
     const int RotationOffsety = 0x28;
@@ -485,7 +485,7 @@ void FreeEverything() {
     s234 = "";
     SongFirst = "";
     tdeg = "";
-    
+
 
     CurrentSong = NULL;
 }
@@ -629,14 +629,14 @@ void EntityLis2t() {
     int Fails = 0;
     Dsd = 0x8;
     EntityList = { 0x20, 0x78, 0x20 , Dsd , 0x490, 0x0 };
-    EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 }; 
-    uintptr_t Ptr23 = moduleBase + 0x01DE26A8;//0x01DCF640;
+    EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 };
+    uintptr_t Ptr23 = moduleBase + 0x01E32540;// 0x01DE26A8;//0x01DCF640;
     L12ocalPlayerCar = FindDMAAddy(hProcess, Ptr23, EntityList);
     ReadProcessMemory(hProcess, (BYTE*)L12ocalPlayerCar, &StandartCarVal, sizeof(StandartCarVal), 0);
-    
+
     for (size_t i1 = 0; i1 < PunjabiNoVirus; i1++)
     {
-        Balls:
+    Balls:
         ToPoland[i1].L1ocalPlayer = FindDMAAddy(hProcess, Ptr23, EntityList);
 
         if (Fails == 5)break;
@@ -645,7 +645,7 @@ void EntityLis2t() {
             Fails = Fails + 1;
         }
 
-        
+
         if (ToPoland[i1].L1ocalPlayer == LocalPlayerCar) {
             if (i1 == 0) {
                 ToPoland[i1].LocalPlayer == true;
@@ -660,7 +660,7 @@ void EntityLis2t() {
         ToPoland[i1].Counter2 = i1;
         tempPoint = ToPoland[i1].L1ocalPlayer;
         ReadProcessMemory(hProcess, (BYTE*)ToPoland[i1].L1ocalPlayer, &Temp212, sizeof(Temp212), 0);
-        
+
         if (Temp212 != StandartCarVal) {
             Dsd = Dsd + Balls;
             EntityList = { 0x20, 0x78, 0x20,Dsd , 0x490, 0x0 };
@@ -687,7 +687,7 @@ void EntityLis2t() {
     Temp212 = NULL;
 }
 
-void CallMessageBox(std::string Test2, int Test3 , int ihdu) {
+void CallMessageBox(std::string Test2, int Test3, int ihdu) {
     DWORD a23;
     uintptr_t a24;
     std::wstring wsTmp(Test2.begin(), Test2.end());
@@ -710,7 +710,7 @@ void CallMessageBox(std::string Test2, int Test3 , int ihdu) {
         break;
     }
 
-    if (Test3 == 0) { 
+    if (Test3 == 0) {
         LPCWSTR def21 = wsTmp.c_str();
         MessageBoxW(NULL, def21, L"?????????", MB_OK | MB_SYSTEMMODAL);
         def21 = 0;
@@ -751,8 +751,8 @@ float X5, X6;
 
 
 
-void FlyHack(float CamX,float CamY, float CamZ, float PosX,float PosZ, float PosY) {
-   
+void FlyHack(float CamX, float CamY, float CamZ, float PosX, float PosZ, float PosY) {
+
     float X;
     float Y;
     float Z;
@@ -780,7 +780,7 @@ void FlyHack(float CamX,float CamY, float CamZ, float PosX,float PosZ, float Pos
     if (GetAsyncKeyState(65))
     {
         if (X6 == -1.0f) {
-            X6 =  1.0f;
+            X6 = 1.0f;
         }
         X6 = CamX - 0.111f;
         WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &X6, sizeof(X6), 0);
@@ -796,7 +796,7 @@ void FlyHack(float CamX,float CamY, float CamZ, float PosX,float PosZ, float Pos
         WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &X5, sizeof(X5), 0);
     }
 
-    if (GetAsyncKeyState(86)& 1)
+    if (GetAsyncKeyState(86) & 1)
     {
         X5 = 0.0f;
         WriteProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &X5, sizeof(X5), 0);
@@ -845,7 +845,7 @@ void FlyHack(float CamX,float CamY, float CamZ, float PosX,float PosZ, float Pos
         WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Y, sizeof(Y), 0);
         WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &Z, sizeof(Z), 0);
     }
-    
+
 
 }
 
@@ -911,7 +911,7 @@ bool TeleportEntityToEntity(uintptr_t Entity, uintptr_t Entity1) {
     ReadProcessMemory(hProcess, (BYTE*)Entity + Offsetsw.PosyOffset, &y, sizeof(y), 0);
     ReadProcessMemory(hProcess, (BYTE*)Entity + Offsetsw.PoszOffset, &z, sizeof(z), 0);
 
-    if (x >= 6000000.0f || x <= -6000000.0f ||y >= 6000000.0f || y <= -6000000.0f || z >= 6000000.0f || z <= -6000000.0f)
+    if (x >= 6000000.0f || x <= -6000000.0f || y >= 6000000.0f || y <= -6000000.0f || z >= 6000000.0f || z <= -6000000.0f)
     {
         return false;
     }
@@ -942,7 +942,7 @@ bool CommandTab(const char* Cmd) {
         TerminateProcess(hProcess, 0);
         return true;
     }
-    else 
+    else
     {
         return true;
     }
@@ -953,17 +953,17 @@ bool CommandTab(const char* Cmd) {
 
 void CleanPc() {
     if (MessageBoxW(NULL, L"Are you sure you want to Delete all Asphalt 8 save files? (Will Delete your Progress too)", L"?????????", MB_YESNO | MB_SYSTEMMODAL) == 6) {
-        
+
         //Get Username and delete Folder Asphalt8 thats saving data
         if (hProcess != NULL)
         {
             TerminateProcess(hProcess, 0);
         }
-        
+
         char username[UNLEN + 1]; DWORD username_len = UNLEN + 1; GetUserNameA(username, &username_len); int Length = sizeof(username); std::string Amongus; Amongus = "C:\\Users\\"; Amongus = Amongus + username; Amongus = Amongus + "\\AppData\\Local\\Packages\\GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj";
         if (std::remove(Amongus.c_str()) == 0) {
             std::cout << "Deleted files";
-           
+
         }
         else
         {
@@ -971,7 +971,7 @@ void CleanPc() {
         }
 
         MessageBoxW(NULL, L"Next open Windows Credential Manager go to Webcredentials and search for Asphalt8 and delete it", L"?????????", MB_YESNO | MB_SYSTEMMODAL);
-        
+
     }
 }
 
@@ -1025,7 +1025,7 @@ void MoveTo231(float X, float Y) {
 
 void GetCurrentSong() {
     if (SpotifyMode == true) {
-              if (Spotifyini == false) {
+        if (Spotifyini == false) {
             Spotifyini = true;
             SProcID = GetProcId(L"Spotify.exe");
             hSpotify = 0;
@@ -1057,34 +1057,34 @@ void GetCurrentSong() {
             std::wstring ddssd; //to_string()
             LPCWSTR Deflord = ddssd.c_str();
             char Textthem;
-           if (DebugMode == true) {
-                
+            if (DebugMode == true) {
+
                 std::cout << "[DEBUG] SongNameAddr: 0x" << std::hex << SpotifyTextAddress << "\n";
                 std::cout << "[DEBUG] ModuleBase: 0x" << std::hex << ModuleBaseSpotify << "\n";
                 std::cout << "[DEBUG] ProcID: 0x" << std::hex << SProcID << "\n";
-          }
+            }
             TickFirst41 = 0;
             TickLast41 = 0;
-          }
-       else
-         {
-           SProcID = GetProcId(L"Spotify.exe");
-           if (SProcID != 0) {
-               cod();
-               SameAddress();
-               if (SongFirst != tdeg) {
-                   if (DebugMode == true) {
-                       std::cout << "Now playing: " << tdeg << "\n";
-                   }
-                   SongFirst = tdeg;
-               }
-           }
-           else
-           {
-               SongFirst = "Spotify Closed";
-               Spotifyini = false;
-           }
-       }
+        }
+        else
+        {
+            SProcID = GetProcId(L"Spotify.exe");
+            if (SProcID != 0) {
+                cod();
+                SameAddress();
+                if (SongFirst != tdeg) {
+                    if (DebugMode == true) {
+                        std::cout << "Now playing: " << tdeg << "\n";
+                    }
+                    SongFirst = tdeg;
+                }
+            }
+            else
+            {
+                SongFirst = "Spotify Closed";
+                Spotifyini = false;
+            }
+        }
     }
 }
 
@@ -1106,31 +1106,29 @@ void CheckPatchedBytes() {
     }
     int Valc;
     uintptr_t Point22;
-   
+
 
 
     //Ghostmode off
 
 
-
-
-    Point22 = moduleBase + 0x15CA0A2;//0x15B8242;
+    Point22 = moduleBase + 0x16035A2;//0x15B8242;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 1095780233)
     {
         GhostInit = false;
         int Valc;
-        Point22 = moduleBase + 0x15CA0A2;//0x15B8242;
+        Point22 = moduleBase + 0x16035A2;//0x15B8242;
         ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = 2337292681;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);//0x15B8CDC
         Valc = 2337554825;
-        Point22 = moduleBase + 0x15CA0A8;//0x15B8248; 
+        Point22 = moduleBase + 0x16035A8;//0x15B8248; 
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = 1096302985;
-        Point22 = moduleBase + 0x15CA0AE;//0x15B824E;Asphalt8.exe+ 
+        Point22 = moduleBase + 0x16035AE;//0x15B824E;Asphalt8.exe+ 
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-        Point22 = moduleBase + 0x16D066E;//0x16BFBCE;
+        Point22 = moduleBase + 0x1709B7E;//0x16BFBCE;
         Valc = 541135119;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = NULL;
@@ -1148,38 +1146,38 @@ void CheckPatchedBytes() {
 
     //PatchTpBack off
 
-    
-    Point22 = moduleBase + 0x15CA6E7;//0x15B8CDF;//0x15B88B7;
+
+    Point22 = moduleBase + 0x1603C0C;//0x15B8CDF;//0x15B88B7;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 109789526)
     {
         NoTpBackini = false;
         uintptr_t tm2p;
         int DSDsdsd1;
-        tm2p = moduleBase + 0x15CA6E7;
-        DSDsdsd1 = 541069583;
+        tm2p = moduleBase + 0x1603C0C;
+        DSDsdsd1 = 1077940495;
         WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-        tm2p = moduleBase + 0x15CA710;
+        tm2p = moduleBase + 0x1603C10;
         DSDsdsd1 = 1349521679;
         WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
         tm2p = NULL;
         DSDsdsd1 = NULL;
     }
-    
-    
+
+
 
     //Fov Off
-    Point22 = moduleBase + 0x1489650;//0x1478CE0;
+    Point22 = moduleBase + 0x14C2910;//0x1489650;//0x1478CE0;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 1225854963) {
         FovIni = false;
         Valc = 1225854963;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-        Point22 = moduleBase + 0x1489654;//0x1478CE4;
+        Point22 = moduleBase + 0x14C2914;//0x1489654;//0x1478CE4;
         byte gf3 = 0x50;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &gf3, sizeof(gf3), 0);
     }
-    
+
 
     Valc = NULL;
     Point22 = NULL;
@@ -1253,7 +1251,7 @@ void cod() {
                 if (i >= 12) { Overflow = true; }
                 else
                 {
-                    
+
                     EmptyCharacter = false;
                     tdeg = tdeg + "By";
                     char Empty23;
@@ -1275,7 +1273,7 @@ void cod() {
             }
             */
             tdeg = tdeg + Textthem;
-        }   
+        }
     }
 }
 
@@ -1299,7 +1297,7 @@ void InstantCock(float x, float z, float Pointx, float Pointz, float Pointy, boo
             return;
         }
 
-        if (x >= t1x|| x <= t2x) {
+        if (x >= t1x || x <= t2x) {
             WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &Pointx, sizeof(Pointx), 0);
             WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Pointy, sizeof(Pointy), 0);
             WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &Pointz, sizeof(Pointz), 0);
@@ -1343,17 +1341,17 @@ float xj, yj, zj;
 
 void CopyEntitys() {
 
-    float i2, i3, i4, i82, i83, i84, gk, lb, gj ,gk1, lb1, gj1;
+    float i2, i3, i4, i82, i83, i84, gk, lb, gj, gk1, lb1, gj1;
 
 
-       if (CurrentEntityfollow != 0) {
+    if (CurrentEntityfollow != 0) {
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x160, &xßl, sizeof(xßl), 0);
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x164, &zßl, sizeof(zßl), 0);
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x168, &yßl, sizeof(yßl), 0);
         WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &xßl, sizeof(xßl), 0);
         WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &zßl, sizeof(zßl), 0);
         WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &yßl, sizeof(yßl), 0);
-        
+
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &xßl, sizeof(xßl), 0);
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &zßl, sizeof(zßl), 0);
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &yßl, sizeof(yßl), 0);
@@ -1373,13 +1371,13 @@ void CopyEntitys() {
             i4 = zßl;
 
 
-            
+
 
             WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &xßl, sizeof(xßl), 0);
             WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &zßl, sizeof(zßl), 0);
             WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &yßl, sizeof(yßl), 0);
         }
-        
+
 
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &xßl, sizeof(xßl), 0);
         ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &zßl, sizeof(zßl), 0);
@@ -1459,7 +1457,7 @@ void menu::render()
     if (GetAsyncKeyState(VK_INSERT) & 1) {
         MenuHidden = !MenuHidden;
     }
-    
+
     if (GetAsyncKeyState(VK_F2) & 1 && DebugMode == true) {
         ShowConsole = !ShowConsole;
         if (ShowConsole == true) {
@@ -1470,12 +1468,12 @@ void menu::render()
             ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
         }
     }
-   /* if (DebugMode == false && Start_Cheat == true)
-    {
+    /* if (DebugMode == false && Start_Cheat == true)
+     {
 
-        ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
-    }
-    */
+         ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+     }
+     */
 
     if (globals.active)
     {
@@ -1518,7 +1516,7 @@ void menu::render()
 
                     a4 = a4 + 0.02f;
                     Gucci = { a3, a4, a5, a6 };
-                    
+
                 }
             }
 
@@ -1532,7 +1530,7 @@ void menu::render()
                 if (AutoStart == true && procID == 0) {
                     if (system("explorer.exe shell:appsFolder\\GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj!App") == 0 && system("explorer.exe shell:appsFolder\\Microsoft.GAMELOFTSA.Asphalt8Airborne_0pp20fcewvvtj!App") == 0)MessageBoxW(NULL, L"Couldnt find the Path of Asphalt8 open it yourself", L"?????????", MB_OK | MB_SYSTEMMODAL);
                 }
-                
+
                 if (SpotifyMode == true) {
                     GetCurrentSong();
                 }
@@ -1570,8 +1568,10 @@ void menu::render()
                         }
                         ImGui::Text("");
                     }
-                    ImGui::Checkbox("Auto Start Game (500 milisec delay, press F4 to stop)",&AutoStart);
                     ImGui::Spacing();
+                    ImGui::Checkbox("Auto Check for Patched bytes at start of Game", &AutoCheckBytes);
+                    ImGui::Spacing();
+                    ImGui::Checkbox("Auto Start Game (500 milisec delay, press F4 to stop)", &AutoStart);
                     ImGui::Spacing();
                     ImGui::Checkbox("Spotify Mode?", &SpotifyMode);
                     ImGui::Spacing();
@@ -1583,8 +1583,8 @@ void menu::render()
                     ImGui::Spacing();
                     if (ImGui::Button("Clean system from Ban files") == true) {
                         CleanPc();
+                        ImGui::Spacing();
                     }
-                    ImGui::Spacing();
                 }
                 ImGui::End();
 
@@ -1621,7 +1621,7 @@ void menu::render()
                 hProcess = 0;
                 hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
                 moduleBase = GetModuleBaseAddress(procID, L"Asphalt8.exe");
-               // procID2 = GetProcId(L"simple-clicker.exe");;
+                // procID2 = GetProcId(L"simple-clicker.exe");;
                 if (moduleBase == 0) {
                     if (DebugMode == true) {
                         MessageBoxW(NULL, L"Couldnt Open Asphalt 8 (Not Enough Rights?)", L"?????????", MB_OK | MB_SYSTEMMODAL);
@@ -1629,9 +1629,9 @@ void menu::render()
                     Start_Cheat = false;
                     goto stas;
                 }
-                NitroAddress = moduleBase + 0x8535F4;//0x65CC24;// 0x5987B4; //0x6C5874;
-                Nitro1Address = moduleBase + 0x853634;//0x65CC44;// 0x5987DA; //0x6C589A;
-                PointerToCurrentLevel = moduleBase + 0x01DE2698;//0x01DCF630;//0x01DCF630;//0x1DB42C0;
+                NitroAddress = moduleBase + 0x6835A4;//0x8535F4;//0x65CC24;// 0x5987B4; //0x6C5874;
+                Nitro1Address = moduleBase + 0x6835A4;//0x853634;//0x65CC44;// 0x5987DA; //0x6C589A;
+                PointerToCurrentLevel = moduleBase + 0x1E32530;//0x01DCF630;//0x01DCF630;//0x1DB42C0;
                 ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(lastAddra1), 0);
                 lastAddra12 = lastAddra1;
                 LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
@@ -1644,12 +1644,12 @@ void menu::render()
                 VelcPositionaddrx = LocalPlayerCar + 0x160;
                 VelcPositionaddrz = LocalPlayerCar + 0x164;
                 VelcPositionaddry = LocalPlayerCar + 0x168;//1AD38
-                AddrsOfCam = moduleBase + 0x01DE25D0;//0x01DCF580; //0x01DB4848;
+                AddrsOfCam = moduleBase + 0x01E32F40;//0x01DE25D0;//0x01DCF580; //0x01DB4848;
                 ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(CarObject), 0);
                 CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                 CarObjectz = CarObjectx + 0x4;
                 CarObjecty = CarObjectx + 0x8;
-                CredsBase = moduleBase + 0x01DE2528;//0x01DCF508;//0x01DCF580;// 0x01DB4280;
+                CredsBase = moduleBase + 0x1E323C8;//0x01DE2528;//0x01DCF508;//0x01DCF580;// 0x01DB4280;
                 CreditAddress2 = FindDMAAddy(hProcess, CredsBase, CredsOfs);
                 InitData = true;
                 TickFirst = GetTickCount64();
@@ -1659,7 +1659,7 @@ void menu::render()
                 TickLast24 = TickFirst24 + 10000;
                 TickFirst42 = GetTickCount64();
                 TickLast42 = TickFirst42 + 50;
-                tmp22 = moduleBase + 0x01DD07D8; //0x01DCF580;//0x01DB4410;
+                tmp22 = moduleBase + 0x01E32668;//0x01DD07D8; //0x01DCF580;//0x01DB4410;
                 MenuTextAddress = FindDMAAddy(hProcess, tmp22, OffMenu);
                 EntityLis2t();
                 TickLast2 = TickFirst2 + 200;
@@ -1670,7 +1670,7 @@ void menu::render()
 
             //If Insert pressed menu isnt rendering
             if (MenuHidden == false) {
-                norm:
+            norm:
                 switch (Tabs)
                 {
 
@@ -1703,16 +1703,16 @@ void menu::render()
                                 std::string l1ol1212 = "";
 
                                 if (MenuChecks == true) {
-                                        l1ol121 = "MainMenu? : " + std::to_string(MainMenu);
-                                        S1afePunjabi1 = l1ol121.data();
+                                    l1ol121 = "MainMenu? : " + std::to_string(MainMenu);
+                                    S1afePunjabi1 = l1ol121.data();
 
-                                        l1ol1212 = "In Menu? : " + std::to_string(MenuSd);
-                                        S1afePunjabi12 = l1ol1212.data();
+                                    l1ol1212 = "In Menu? : " + std::to_string(MenuSd);
+                                    S1afePunjabi12 = l1ol1212.data();
                                 }
                                 else
                                 {
-                                        S1afePunjabi1 = "Turn on Menu Checks in Performance Settings";
-                                        S1afePunjabi12 = "Status: Not Active";
+                                    S1afePunjabi1 = "Turn on Menu Checks in Performance Settings";
+                                    S1afePunjabi12 = "Status: Not Active";
                                 }
 
                                 std::string lol11212 = "FPS: " + std::to_string(ImGui::GetIO().Framerate);
@@ -1759,404 +1759,404 @@ void menu::render()
                                 }
                                 ImGui::Text("");
                             }
-                                ImGui::Checkbox("Nitro doesnt get used up", &InfiniteNitro);
+                            ImGui::Checkbox("Nitro doesnt get used up", &InfiniteNitro);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Spotify Mode?", &SpotifyMode);
+                            ImGui::Spacing();
+                            if (Biggers == true) {
+                                ImGui::Checkbox("Only Name Mode?", &OnlyName);
                                 ImGui::Spacing();
-                                ImGui::Checkbox("Spotify Mode?", &SpotifyMode);
+                                ImGui::Checkbox("Always show Name Seperate", &AlwaysShowName);
                                 ImGui::Spacing();
-                                if (Biggers == true) {
-                                    ImGui::Checkbox("Only Name Mode?", &OnlyName);
-                                    ImGui::Spacing();
-                                    ImGui::Checkbox("Always show Name Seperate", &AlwaysShowName);
-                                    ImGui::Spacing();
-                                    ImGui::Checkbox("Rainbow Mode?", &RainbowMode);
-                                    ImGui::Spacing();
-                                }
-                                ImGui::Checkbox("More Options", &Biggers);
+                                ImGui::Checkbox("Rainbow Mode?", &RainbowMode);
                                 ImGui::Spacing();
-                                ImGui::Checkbox("Jump with da car (Press Space)", &JumpCar);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("SlowFall (Auto slow fall maybe annoying)", &SlowFall);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("FastFall (Auto Fast fall maybe annoying)", &FastFall);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Teleport (O = set TPPoint, L = see TPPoint, K = TP)", &GhostMode);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Instant Stop yeah", &InstantStop);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Stop Everyone (in your Render Distance) ", &LoopTp); 
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Fly Hack Test (not finished version imma make a better one)", &FlyHac2k);
-                                ImGui::Spacing();//CopyOthers CameraObject
-                                ImGui::Checkbox("FOV Changer", &FovChanger);
-                                ImGui::Spacing();//CopyOthers CameraObject
-                                if (FovChanger == true) {
-                                    if (FovIni == false) {
-                                        FovIni = true;
+                            }
+                            ImGui::Checkbox("More Options", &Biggers);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Jump with da car (Press Space)", &JumpCar);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("SlowFall (Auto slow fall maybe annoying)", &SlowFall);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("FastFall (Auto Fast fall maybe annoying)", &FastFall);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Teleport (O = set TPPoint, L = see TPPoint, K = TP)", &GhostMode);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Instant Stop yeah", &InstantStop);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Stop Everyone (in your Render Distance) ", &LoopTp);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Fly Hack Test (not finished version imma make a better one)", &FlyHac2k);
+                            ImGui::Spacing();//CopyOthers CameraObject
+                            ImGui::Checkbox("FOV Changer", &FovChanger);
+                            ImGui::Spacing();//CopyOthers CameraObject
+                            if (FovChanger == true) {
+                                if (FovIni == false) {
+                                    FovIni = true;
                                     //FovOn = 1225854963
                                     //FovOff = 2425393296
                                         //Asphalt8_x64.exe + 1197D10
-                                        unsigned int gf2 = 2425393296;
-                                        uintptr_t döm = moduleBase + 0x1489650;//0x14788D0;//0x1197D10;
-                                        WriteProcessMemory(hProcess, (BYTE*)döm, &gf2, sizeof(gf2), 0);
-                                        döm = moduleBase + 0x1489654;//0x1478CE4;//0x14788D4;
-                                        byte gf3 = 0x90;
-                                        WriteProcessMemory(hProcess, (BYTE*)döm, &gf3, sizeof(gf3), 0);
-                                    }
-                                    if (Fov == 0.0f)
+                                    unsigned int gf2 = 2425393296;
+                                    uintptr_t döm = moduleBase + 0x14C2910;//0x1489650;//0x14788D0;//0x1197D10;
+                                    WriteProcessMemory(hProcess, (BYTE*)döm, &gf2, sizeof(gf2), 0);
+                                    döm = moduleBase + 0x14C2914;//0x1489654;//0x1478CE4;//0x14788D4;
+                                    byte gf3 = 0x90;
+                                    WriteProcessMemory(hProcess, (BYTE*)döm, &gf3, sizeof(gf3), 0);
+                                }
+                                if (Fov == 0.0f)
+                                {
+                                    Fov = 120.0f;
+                                }
+
+                                ImGui::SliderFloat("Fov Value", &Fov, 5.0f, 251.0f, 0, 4.0f);
+                                ImGui::Spacing();
+                                if (Fov != Fov1) {
+                                    Fov1 = Fov;
+                                    for (size_t i = 0; i < 20; i++)
                                     {
-                                        Fov = 120.0f;
-                                    }
 
-                                    ImGui::SliderFloat("Fov Value", &Fov, 5.0f, 251.0f, 0, 4.0f);
-                                    ImGui::Spacing();
-                                    if (Fov != Fov1) {
-                                        Fov1 = Fov;
-                                        for (size_t i = 0; i < 20; i++)
+                                        Camera2 = 0x10 * i;
+                                        Camera2 = Camera2 + 0x8;
+                                        CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
+                                        CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
+                                        if (CurrentCamera == 0)
                                         {
+                                            continue;
+                                        }
+                                        float FovT = Fov / 100;
+                                        WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &FovT, sizeof(FovT), 0);
+                                        /*
+                                        switch (i)
+                                        {
+                                        case 1:
 
-                                            Camera2 = 0x10 * i;
-                                            Camera2 = Camera2 + 0x8;
+                                            break;
+
+                                        case 2:
+                                            Camera2 = 0x38;
                                             CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
                                             CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
-                                            if (CurrentCamera == 0)
-                                            {
-                                                continue;
-                                            }
-                                            float FovT = Fov / 100;
-                                            WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &FovT, sizeof(FovT), 0);
-                                            /*
-                                            switch (i)
-                                            {
-                                            case 1:
-                                                
-                                                break;
+                                            WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &Fov, sizeof(Fov), 0);
+                                            break;
 
-                                            case 2:
-                                                Camera2 = 0x38;
-                                                CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
-                                                CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
-                                                WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &Fov, sizeof(Fov), 0);
-                                                break;
-
-                                            case 3:
-                                                Camera2 = 0x28;
-                                                CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
-                                                CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
-                                                WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &Fov, sizeof(Fov), 0);
-                                                break;
-                                            }
-                                            */
-                                           
+                                        case 3:
+                                            Camera2 = 0x28;
+                                            CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
+                                            CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
+                                            WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &Fov, sizeof(Fov), 0);
+                                            break;
                                         }
+                                        */
 
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                if (FovIni == true)
+                                {
+                                    FovIni = false;
+                                    int gf2 = 1225854963;
+                                    uintptr_t döm = moduleBase + 0x14C2914;//0x1489654;//0x1478CE0;//0x14788D4;//0x1197D14;
+                                    WriteProcessMemory(hProcess, (BYTE*)moduleBase + 0x14C2910, &gf2, sizeof(gf2), 0);
+                                    byte gf3 = 0x50;
+                                    WriteProcessMemory(hProcess, (BYTE*)döm, &gf3, sizeof(gf3), 0);
+                                }
+                            }
+                            ImGui::Checkbox("Tp Every entity there is", &LoopTpEvery);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Copy any entity in your reach", &CopyOthers);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Light mode", &Lightskin);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Patch TP Back(Dont get Tped back to somewhere)", &NoTpBack);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Auto Start Game (500 milisec delay, press F4 to stop)", &AutoStart);
+                            ImGui::Spacing();
+                            ImGui::Checkbox("Auto Win (Teleport you when your far enough away)-", &AutoWin);
+                            ImGui::Spacing();
+                            if (AutoWin == true) {
+                                ImGui::SliderFloat("Meters until you get Teleported", &Temp1, 100.0f, 5000.0f, 0, 5.0f);
+                                ImGui::Spacing();
+                            }/*
+                            ImGui::SliderFloat("Set Y Pos:", &b2y, -600.0f, 600.0f, 0, 50.0f);
+                            b2y = x16;
+                            if (t2y != b2y && b2y != x16) {
+                                t2y = b2y;
+                                WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &b2y, sizeof(b2y), 0);
+                            }
+                            */
+                            if (un1337 == true) {
+                                ImGui::Checkbox("1337 Mode?", &Standart1337Mode);
+                                ImGui::Spacing();
+                            }
+
+
+                            ImGui::Checkbox("Debug Mode", &DebugMode);
+                            ImGui::Spacing();
+                            if (ImGui::Button("Random Ammount of Creds") == true) {
+                                int TempVal;
+                                ReadProcessMemory(hProcess, (BYTE*)CreditAddress2, &TempVal, sizeof(TempVal), 0);
+                                TempVal = TempVal - 1000;
+                                VirtualProtectEx(hProcess, (BYTE*)CreditAddress2, sizeof(TempVal), 0x40, &OldProtection);
+                                if (WriteProcessMemory(hProcess, (BYTE*)CreditAddress2, &TempVal, sizeof(TempVal), 0) == false) {
+                                    if (DebugMode == true) {
+                                        MessageBox(NULL, L"Couldnt write", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                    }
+
+                                }
+                            }
+                            ImGui::Spacing();
+
+                            if (ImGui::Button("Shoot someone into the air") == true) {
+                                float i2, i3, i4, i82, i83, i84;
+
+
+                                if (CurrentEntityfollow == 0) {
+                                    for (size_t i = 0; i < getEntityCount(); i++)
+                                    {
+                                        if (ToPoland[i].L1ocalPlayer == 0 || LocalPlayerCar == ToPoland[i].L1ocalPlayer)continue;
+                                        i2 = ToPoland[i].x16 - x16;
+                                        i3 = ToPoland[i].y16 - y16;
+                                        i4 = ToPoland[i].z16 - z16;
+                                        i82 = ToPoland[i].x16 + x16;
+                                        i83 = ToPoland[i].y16 + y16;
+                                        i84 = ToPoland[i].z16 + z16;
+                                        if (i82 >= Reach || i2 <= Reach2 && i83 >= Reach || i3 <= Reach2 && i84 >= Reach || i4 <= Reach2 && CurrentEntityfollow == 0)
+                                        {
+                                            if (CurrentEntityfollow == 0) {
+                                                CurrentEntityfollow = ToPoland[i].L1ocalPlayer;
+                                            }
+                                            break;
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    if (FovIni == true)
-                                    {
-                                        FovIni = false;
-                                        int gf2 = 1225854963;
-                                        uintptr_t döm = moduleBase + 0x1489654;//0x1478CE0;//0x14788D4;//0x1197D14;
-                                        WriteProcessMemory(hProcess, (BYTE*)moduleBase + 0x1489650, &gf2, sizeof(gf2), 0);
-                                        byte gf3 = 0x50;
-                                        WriteProcessMemory(hProcess, (BYTE*)döm, &gf3, sizeof(gf3), 0);
-                                    }
-                                }
-                                ImGui::Checkbox("Tp Every entity there is", &LoopTpEvery);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Copy any entity in your reach", &CopyOthers);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Light mode", &Lightskin);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Patch TP Back(Dont get Tped back to somewhere)", &NoTpBack);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Auto Start Game (500 milisec delay, press F4 to stop)", &AutoStart);
-                                ImGui::Spacing();
-                                ImGui::Checkbox("Auto Win (Teleport you when your far enough away)-", &AutoWin);
-                                ImGui::Spacing();
-                                if (AutoWin == true) {
-                                    ImGui::SliderFloat("Meters until you get Teleported", &Temp1, 100.0f, 5000.0f, 0, 5.0f);
-                                    ImGui::Spacing();
-                                }/*
-                                ImGui::SliderFloat("Set Y Pos:", &b2y, -600.0f, 600.0f, 0, 50.0f);
-                                b2y = x16;
-                                if (t2y != b2y && b2y != x16) {
-                                    t2y = b2y;
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &b2y, sizeof(b2y), 0);
-                                }
-                                */
-                                if (un1337 == true) {
-                                    ImGui::Checkbox("1337 Mode?", &Standart1337Mode);
-                                    ImGui::Spacing();
-                                }
-                                
-
-                                    ImGui::Checkbox("Debug Mode", &DebugMode);
-                                    ImGui::Spacing();
-                                if (ImGui::Button("Random Ammount of Creds") == true) {
-                                    int TempVal;
-                                    ReadProcessMemory(hProcess, (BYTE*)CreditAddress2, &TempVal, sizeof(TempVal), 0);
-                                    TempVal = TempVal - 1000;
-                                    VirtualProtectEx(hProcess, (BYTE*)CreditAddress2, sizeof(TempVal), 0x40, &OldProtection);
-                                    if (WriteProcessMemory(hProcess, (BYTE*)CreditAddress2, &TempVal, sizeof(TempVal), 0) == false) {
-                                        if (DebugMode == true) {
-                                            MessageBox(NULL, L"Couldnt write", L"?????????", MB_OK | MB_SYSTEMMODAL);
-                                        }
-                                        
-                                    }
-                                }
-                                ImGui::Spacing();
-
-                                if (ImGui::Button("Shoot someone into the air") == true) {
-                                    float i2, i3, i4, i82, i83, i84;
+                                    if (Flipini == false)Flipini = true;
+                                    xj = x16;
+                                    yj = y16;
+                                    zj = z16;
 
 
-                                    if (CurrentEntityfollow == 0) {
-                                        for (size_t i = 0; i < getEntityCount(); i++)
-                                        {
-                                            if (ToPoland[i].L1ocalPlayer == 0 || LocalPlayerCar == ToPoland[i].L1ocalPlayer)continue;
-                                            i2 = ToPoland[i].x16 - x16;
-                                            i3 = ToPoland[i].y16 - y16;
-                                            i4 = ToPoland[i].z16 - z16;
-                                            i82 = ToPoland[i].x16 + x16;
-                                            i83 = ToPoland[i].y16 + y16;
-                                            i84 = ToPoland[i].z16 + z16;
-                                            if (i82 >= Reach || i2 <= Reach2 && i83 >= Reach || i3 <= Reach2 && i84 >= Reach || i4 <= Reach2 && CurrentEntityfollow == 0)
-                                            {
-                                                if (CurrentEntityfollow == 0) {
-                                                    CurrentEntityfollow = ToPoland[i].L1ocalPlayer;
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (Flipini == false)Flipini = true;
-                                        xj = x16;
-                                        yj = y16;
-                                        zj = z16;
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x160, &i2, sizeof(i2), 0);
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x164, &i3, sizeof(i3), 0);
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x168, &i4, sizeof(i4), 0);
+                                    x1y = i2;
+                                    y1y = i3;
+                                    z1y = i4;
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &xßl, sizeof(xßl), 0);
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &zßl, sizeof(zßl), 0);
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x28, &yßl, sizeof(yßl), 0);
+                                    yßl = yßl - 0.8f;
+                                    x2y = xßl;
+                                    y2y = yßl;
+                                    z2y = yßl;
 
-
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x160, &i2, sizeof(i2), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x164, &i3, sizeof(i3), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x168, &i4, sizeof(i4), 0);
-                                        x1y = i2;
-                                        y1y = i3;
-                                        z1y = i4;
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x20, &xßl, sizeof(xßl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x24, &zßl, sizeof(zßl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x28, &yßl, sizeof(yßl), 0);
-                                        yßl = yßl - 0.8f;
-                                        x2y = xßl;
-                                        y2y = yßl;
-                                        z2y = yßl;
-
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &xßl, sizeof(xßl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &zßl, sizeof(zßl), 0);
-                                        ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &yßl, sizeof(yßl), 0);
-                                        x3y = xßl;
-                                        y3y = yßl;
-                                        z3y = zßl;
-                                    }
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x50, &xßl, sizeof(xßl), 0);
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x54, &zßl, sizeof(zßl), 0);
+                                    ReadProcessMemory(hProcess, (BYTE*)CurrentEntityfollow + 0x58, &yßl, sizeof(yßl), 0);
+                                    x3y = xßl;
+                                    y3y = yßl;
+                                    z3y = zßl;
                                 }
+                            }
 
-                                ImGui::Spacing();
-                               /* if (ImGui::Button("Unlock Win (doesnt work anymore)") == true) {
-                                    float x69, y69, z69;
-                                    float x691, y691, z691;
-                                    x691 = x16;
-                                    y691 = y16;
-                                    z691 = z16;
-                                    x69 = x16 + 50000.0f;
-                                    y69 = x16 + 50000.0f;
-                                    z69 = x16 + 50000.0f;
-                                    int Valc;
-                                    Valc = 2341507216;
-                                    Point22 = moduleBase + 0x11B5A72;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = 2341507216;
-                                    Point22 = moduleBase + 0x11B5A78;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = 1099993232;
-                                    Point22 = moduleBase + 0x11B5A7E;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x69, sizeof(x69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y69, sizeof(y69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z69, sizeof(z69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x69, sizeof(x69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y69, sizeof(y69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z69, sizeof(z69), 0);
-                                    x69 = -50000.0f;
-                                    y69 = -50000.0f;
-                                    z69 = -50000.0f;
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x69, sizeof(x69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y69, sizeof(y69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z69, sizeof(z69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x69, sizeof(x69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y69, sizeof(y69), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z69, sizeof(z69), 0);
-                                    Point22 = moduleBase + 0x1690C9E;
-                                    Valc = 2425393296;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = NULL;
-                                    Point22 = NULL;
-                                    Valc = 2337292681;
-                                    Point22 = moduleBase + 0x11B5A72;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = 2337554825;
-                                    Point22 = moduleBase + 0x11B5A78;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = 1096302985;
-                                    Point22 = moduleBase + 0x11B5A7E;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x691, sizeof(x691), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y691, sizeof(y691), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z691, sizeof(z691), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x691, sizeof(x691), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y691, sizeof(y691), 0);
-                                    WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z691, sizeof(z691), 0);
-                                    Point22 = moduleBase + 0x1690C9E;
-                                    Valc = 541135119;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = NULL;
-                                    Point22 = NULL;
-                                    x69 = NULL;
-                                    z69 = NULL;
-                                    y69 = NULL;
-                                    x691 = NULL;
-                                    y691 = NULL;
-                                    z691 = NULL;
-                                }
-                                ImGui::Spacing();
-                                */
-                                if (ImGui::Button("Force SpawnPoint") == true) {
-                                    rotx = x241;
-                                    roty = y241;
-                                    rotz = z241;
-                                    Spawnpointx = x16;
-                                    SpawnPointz = z16;
-                                    Spawnpointy = y16 + 2.0f;
-                                    Spawnini = true;
-                                }
-                                ImGui::Spacing();/*                                if (ImGui::Button("Test") == true) {
-                                    Test3();
+                            ImGui::Spacing();
+                            /* if (ImGui::Button("Unlock Win (doesnt work anymore)") == true) {
+                                 float x69, y69, z69;
+                                 float x691, y691, z691;
+                                 x691 = x16;
+                                 y691 = y16;
+                                 z691 = z16;
+                                 x69 = x16 + 50000.0f;
+                                 y69 = x16 + 50000.0f;
+                                 z69 = x16 + 50000.0f;
+                                 int Valc;
+                                 Valc = 2341507216;
+                                 Point22 = moduleBase + 0x11B5A72;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 Valc = 2341507216;
+                                 Point22 = moduleBase + 0x11B5A78;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 Valc = 1099993232;
+                                 Point22 = moduleBase + 0x11B5A7E;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x69, sizeof(x69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y69, sizeof(y69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z69, sizeof(z69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x69, sizeof(x69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y69, sizeof(y69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z69, sizeof(z69), 0);
+                                 x69 = -50000.0f;
+                                 y69 = -50000.0f;
+                                 z69 = -50000.0f;
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x69, sizeof(x69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y69, sizeof(y69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z69, sizeof(z69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x69, sizeof(x69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y69, sizeof(y69), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z69, sizeof(z69), 0);
+                                 Point22 = moduleBase + 0x1690C9E;
+                                 Valc = 2425393296;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 Valc = NULL;
+                                 Point22 = NULL;
+                                 Valc = 2337292681;
+                                 Point22 = moduleBase + 0x11B5A72;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 Valc = 2337554825;
+                                 Point22 = moduleBase + 0x11B5A78;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 Valc = 1096302985;
+                                 Point22 = moduleBase + 0x11B5A7E;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x691, sizeof(x691), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y691, sizeof(y691), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z691, sizeof(z691), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &x691, sizeof(x691), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &y691, sizeof(y691), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &z691, sizeof(z691), 0);
+                                 Point22 = moduleBase + 0x1690C9E;
+                                 Valc = 541135119;
+                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                 Valc = NULL;
+                                 Point22 = NULL;
+                                 x69 = NULL;
+                                 z69 = NULL;
+                                 y69 = NULL;
+                                 x691 = NULL;
+                                 y691 = NULL;
+                                 z691 = NULL;
+                             }
+                             ImGui::Spacing();
+                             */
+                            if (ImGui::Button("Force SpawnPoint") == true) {
+                                rotx = x241;
+                                roty = y241;
+                                rotz = z241;
+                                Spawnpointx = x16;
+                                SpawnPointz = z16;
+                                Spawnpointy = y16 + 2.0f;
+                                Spawnini = true;
+                            }
+                            ImGui::Spacing();/*                                if (ImGui::Button("Test") == true) {
+                                Test3();
+
+                            }
+
+                            ImGui::Spacing();
+                            /*
+                            if (ImGui::Button("Unlock Carrer shit") == true) {
+                                //Asphalt8_x64.exe+7555A1
+                                unsigned int sd5 = 2103250315;
+                                int s3 = 6;
+
+                                uintptr_t gkgl = moduleBase + 0x7555A1;
+                                ReadProcessMemory(hProcess, (BYTE*)gkgl, &sd5, sizeof(sd5), 0);
+                                if (sd5 != 2103250315)
+                                {
+                                    WriteProcessMemory(hProcess, (BYTE*)gkgl, &sd5, sizeof(sd5), 0);
 
                                 }
-                                
-                                ImGui::Spacing();
-                                /*
-                                if (ImGui::Button("Unlock Carrer shit") == true) {
-                                    //Asphalt8_x64.exe+7555A1
-                                    unsigned int sd5 = 2103250315;
-                                    int s3 = 6;
-                                    
-                                    uintptr_t gkgl = moduleBase + 0x7555A1;
-                                    ReadProcessMemory(hProcess, (BYTE*)gkgl, &sd5, sizeof(sd5), 0);
-                                    if (sd5 != 2103250315)
-                                    {
-                                        WriteProcessMemory(hProcess, (BYTE*)gkgl, &sd5, sizeof(sd5), 0);
-                                        
-                                    }
-                                    else
-                                    {
-                                        NullOutBytes(gkgl, s3);
-                                        
-                                    }
+                                else
+                                {
+                                    NullOutBytes(gkgl, s3);
 
                                 }
-                                ImGui::Spacing();
-                                */
-                                if (ImGui::Button("Teleport all to you") == true) {
-                                    for (size_t i = 0; i < getEntityCount(); i++)
-                                    {
-                                        if (ToPoland[i].L1ocalPlayer == LocalPlayerCar && ToPoland[i].Entity23234 == false)continue;
-                                        float x121 = x16 + 5.0f, z121 = z16 + 5.0f, y121 = y16 + 5.0f;
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrx, &x121, sizeof(x121), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddry, &y121, sizeof(y121), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrz, &z121, sizeof(z121), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrx, &x161, sizeof(x161), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrz, &z161, sizeof(z161), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddry, &y161, sizeof(y161), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrx, &x241, sizeof(x241), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddry, &y241, sizeof(y241), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrz, &z241, sizeof(z241), 0);
-                                        x121 = 0;
-                                        z121 = 0;
-                                        y121 = 0;
-                                    }
 
-                                }
-                                ImGui::Spacing();
-                                if (ImGui::Button("Teleport all to Void lmao") == true) {
-                                    for (size_t i = 0; i < getEntityCount(); i++)
-                                    {
-                                        if (ToPoland[i].L1ocalPlayer == LocalPlayerCar && ToPoland[i].Entity23234 == false)continue;
-                                        float x121 = -9999999.0f, z121 = -9999999.0f, y121 = -9999999.0f;
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrx, &x121, sizeof(x121), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddry, &y121, sizeof(y121), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrz, &z121, sizeof(z121), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrx, &x161, sizeof(x161), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrz, &z161, sizeof(z161), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddry, &y161, sizeof(y161), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrx, &x241, sizeof(x241), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddry, &y241, sizeof(y241), 0);
-                                        WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrz, &z241, sizeof(z241), 0);
-                                        x121 = 0;
-                                        z121 = 0;
-                                        y121 = 0;
-                                    }
+                            }
+                            ImGui::Spacing();
+                            */
+                            if (ImGui::Button("Teleport all to you") == true) {
+                                for (size_t i = 0; i < getEntityCount(); i++)
+                                {
+                                    if (ToPoland[i].L1ocalPlayer == LocalPlayerCar && ToPoland[i].Entity23234 == false)continue;
+                                    float x121 = x16 + 5.0f, z121 = z16 + 5.0f, y121 = y16 + 5.0f;
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrx, &x121, sizeof(x121), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddry, &y121, sizeof(y121), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrz, &z121, sizeof(z121), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrx, &x161, sizeof(x161), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrz, &z161, sizeof(z161), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddry, &y161, sizeof(y161), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrx, &x241, sizeof(x241), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddry, &y241, sizeof(y241), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrz, &z241, sizeof(z241), 0);
+                                    x121 = 0;
+                                    z121 = 0;
+                                    y121 = 0;
                                 }
 
-                                ImGui::Spacing();
-                                if (ImGui::Button("Press if Cheat is broken") == true) {
-                                    ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(&lastAddra1), 0);
-                                    LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
-                                    Positionaddrx = LocalPlayerCar + 0x50;
-                                    Positionaddrz = LocalPlayerCar + 0x54;
-                                    Positionaddry = LocalPlayerCar + 0x58;
-                                    VelcPositionaddrx = LocalPlayerCar + 0x160;
-                                    VelcPositionaddrz = LocalPlayerCar + 0x164;
-                                    VelcPositionaddry = LocalPlayerCar + 0x168;
-                                    RotationPositionaddrx = LocalPlayerCar + 0x20;
-                                    RotationPositionaddrz = LocalPlayerCar + 0x24;
-                                    RotationPositionaddry = LocalPlayerCar + 0x28;
-                                    ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(&CarObject), 0);
-                                    CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
-                                    CarObjectz = CarObjectx + 0x4;
-                                    CarObjecty = CarObjectx + 0x8;
-                                    int DSDsdsd = 1090554177;
-                                    WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &DSDsdsd, sizeof(DSDsdsd), 0);
-                                    DSDsdsd = NULL;
-                                    JumpCar = false;
-                                    GhostMode = false;
-                                    InfiniteNitro = false;
-                                    SlowFall = false;
-                                    FastFall = false;
-                                    LoopTp = false;
-                                    NoTpBack = false;
-                                    EntityLis2t();
-                                };
-                                ImGui::Spacing();
-                                if (ImGui::Button("Teleport to Entities") == true) {
-                                    Tabs = 2;
+                            }
+                            ImGui::Spacing();
+                            if (ImGui::Button("Teleport all to Void lmao") == true) {
+                                for (size_t i = 0; i < getEntityCount(); i++)
+                                {
+                                    if (ToPoland[i].L1ocalPlayer == LocalPlayerCar && ToPoland[i].Entity23234 == false)continue;
+                                    float x121 = -9999999.0f, z121 = -9999999.0f, y121 = -9999999.0f;
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrx, &x121, sizeof(x121), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddry, &y121, sizeof(y121), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].P1ositionaddrz, &z121, sizeof(z121), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrx, &x161, sizeof(x161), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddrz, &z161, sizeof(z161), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].V1elcPositionaddry, &y161, sizeof(y161), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrx, &x241, sizeof(x241), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddry, &y241, sizeof(y241), 0);
+                                    WriteProcessMemory(hProcess, (BYTE*)ToPoland[i].R1otationPositionaddrz, &z241, sizeof(z241), 0);
+                                    x121 = 0;
+                                    z121 = 0;
+                                    y121 = 0;
                                 }
+                            }
 
-                                ImGui::Spacing();
-                                if (ImGui::Button("Unlock Source of Cheat") == true) {
-                                   Tabs = 3;
-                                        
+                            ImGui::Spacing();
+                            if (ImGui::Button("Press if Cheat is broken") == true) {
+                                ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(&lastAddra1), 0);
+                                LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
+                                Positionaddrx = LocalPlayerCar + 0x50;
+                                Positionaddrz = LocalPlayerCar + 0x54;
+                                Positionaddry = LocalPlayerCar + 0x58;
+                                VelcPositionaddrx = LocalPlayerCar + 0x160;
+                                VelcPositionaddrz = LocalPlayerCar + 0x164;
+                                VelcPositionaddry = LocalPlayerCar + 0x168;
+                                RotationPositionaddrx = LocalPlayerCar + 0x20;
+                                RotationPositionaddrz = LocalPlayerCar + 0x24;
+                                RotationPositionaddry = LocalPlayerCar + 0x28;
+                                ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(&CarObject), 0);
+                                CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
+                                CarObjectz = CarObjectx + 0x4;
+                                CarObjecty = CarObjectx + 0x8;
+                                int DSDsdsd = 1090554177;
+                                WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &DSDsdsd, sizeof(DSDsdsd), 0);
+                                DSDsdsd = NULL;
+                                JumpCar = false;
+                                GhostMode = false;
+                                InfiniteNitro = false;
+                                SlowFall = false;
+                                FastFall = false;
+                                LoopTp = false;
+                                NoTpBack = false;
+                                EntityLis2t();
+                            };
+                            ImGui::Spacing();
+                            if (ImGui::Button("Teleport to Entities") == true) {
+                                Tabs = 2;
+                            }
 
-                                }
-                                ImGui::Spacing();
-                                if (ImGui::Button("Clean system from Ban files") == true) {
-                                    CleanPc();
-                                }
-                                ImGui::Spacing();
-                                if (ImGui::Button("Performance") == true) {
-                                    Tabs = 4;
-                                }
+                            ImGui::Spacing();
+                            if (ImGui::Button("Unlock Source of Cheat") == true) {
+                                Tabs = 3;
+
+
+                            }
+                            ImGui::Spacing();
+                            if (ImGui::Button("Clean system from Ban files") == true) {
+                                CleanPc();
+                            }
+                            ImGui::Spacing();
+                            if (ImGui::Button("Performance") == true) {
+                                Tabs = 4;
+                            }
                         }
                         else
                         {
@@ -2219,11 +2219,11 @@ void menu::render()
                                 FastFall = false;
                             }
                             ImGui::Spacing();
-                           
+
                         }
-                        
-                            
-                           
+
+
+
 
                     }
                     ImGui::End();
@@ -2261,16 +2261,20 @@ void menu::render()
                                 if (WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &ToPoland[i22].y161, sizeof(ToPoland[i22].y161), 0) == false)EntityLis2t();
                                 */
                             }
-                           /* if (ImGui::Button(SafePunja1bi) == true) {
-                                i22 = i;/*
-                                WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &ToPoland[i22].x16, sizeof(ToPoland[i22].x16), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &ToPoland[i22].y16, sizeof(ToPoland[i22].y16), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &ToPoland[i22].z16, sizeof(ToPoland[i22].z16), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &ToPoland[i22].x161, sizeof(ToPoland[i22].x161), 0);
-                                WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &ToPoland[i22].z161, sizeof(ToPoland[i22].z161), 0);
-                                if (WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &ToPoland[i22].y161, sizeof(ToPoland[i22].y161), 0) == false)EntityLis2t();
-                                */
-                            //}
+
+                            if (GetAsyncKeyState(VK_ESCAPE) & 1) {
+                                Tabs = 1;
+                            }
+                            /* if (ImGui::Button(SafePunja1bi) == true) {
+                                 i22 = i;/*
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &ToPoland[i22].x16, sizeof(ToPoland[i22].x16), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &ToPoland[i22].y16, sizeof(ToPoland[i22].y16), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &ToPoland[i22].z16, sizeof(ToPoland[i22].z16), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &ToPoland[i22].x161, sizeof(ToPoland[i22].x161), 0);
+                                 WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &ToPoland[i22].z161, sizeof(ToPoland[i22].z161), 0);
+                                 if (WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &ToPoland[i22].y161, sizeof(ToPoland[i22].y161), 0) == false)EntityLis2t();
+                                 */
+                                 //}
                         }
                         std::string lol1122 = "Current Entity Pos: x: " + std::to_string(ToPoland[i22].x16) + " , y: " + std::to_string(ToPoland[i22].y16) + " , z: " + std::to_string(ToPoland[i22].z16);
                         const char* SafePunja1bi = lol1122.data();
@@ -2291,85 +2295,85 @@ void menu::render()
                     break;
 
                 case 3:
-                   ImGui::Begin(iw.window_title, &globals.active, ImGuiWindowFlags_NoResize);
-                   {
-                       
-                       if (Passright == true) {
-                           ImGui::Text("https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus");
-                           if (ImGui::Button("Go Back") == true) {
-                               Tabs = 1;
-                           }
-                       }
-                       else
-                       {
-                           const char* TempBus = s1232.data();
-                           ImGui::Text(TempBus);
-                           for (size_t i = 0; i < 11; i++)
-                           {
-                               std::string Tempd2 = std::to_string(i);
-                               const char* TempBus23 = Tempd2.data();
-                               if (i == 10) {
-                                   if (ImGui::Button("delete last character") == true) {
-                                       s1232.pop_back();
-                                   }
-                                   continue;
-                               }
-                               ImGui::Spacing();
-                               if (ImGui::Button(TempBus23) == true) {
-                                   int Kesy = i;
-                                   s1232 = s1232 + std::to_string(Kesy);
-                               }
-                           }
+                    ImGui::Begin(iw.window_title, &globals.active, ImGuiWindowFlags_NoResize);
+                    {
 
-                           if (ImGui::Button("Try Password") == true) {
-                               s1232 = TempBus;
-                               if (s1232 == "1") {//337) {
-                                   if(Standart1337Mode == true)MessageBox(NULL, L"Already entered", L"?????????", MB_OK | MB_SYSTEMMODAL);
-                                   else
-                                   {
-                                       Standart1337Mode = true;
-                                       un1337 = true;
-                                       MessageBox(NULL, L"Old Version now Active", L"?????????", MB_OK | MB_SYSTEMMODAL);
-                                   }
-                                   
-                               }
-                               else
-                               {
-                                   if (s1232 == "123123") {
-                                       if(DebugModeU2 == true)if (Standart1337Mode == true)MessageBox(NULL, L"Already entered", L"?????????", MB_OK | MB_SYSTEMMODAL);
-                                       else
-                                       {
-                                           DebugModeU2 = true;
-                                       }
-                                      
-                                   }
-                                   else
-                                   {
-                                       if (s1232 == "133769420") {
-                                           if(Passright == true)if (Standart1337Mode == true)MessageBox(NULL, L"Already entered", L"?????????", MB_OK | MB_SYSTEMMODAL);
-                                           else
-                                           {
-                                               Passright = true;
-                                               d3344(0, "https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus");
-                                               ShellExecute(0, 0, L"https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus", 0, 0, SW_SHOW);
-                                           }    
-                                       }
-                                       else
-                                       {
-                                           s1232 = "";
-                                           MessageBox(NULL, L"Nope wrong", L"?????????", MB_OK | MB_SYSTEMMODAL);
-                                       }
-                                   }
-                               }
-                           }
+                        if (Passright == true) {
+                            ImGui::Text("https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus");
+                            if (ImGui::Button("Go Back") == true) {
+                                Tabs = 1;
+                            }
+                        }
+                        else
+                        {
+                            const char* TempBus = s1232.data();
+                            ImGui::Text(TempBus);
+                            for (size_t i = 0; i < 11; i++)
+                            {
+                                std::string Tempd2 = std::to_string(i);
+                                const char* TempBus23 = Tempd2.data();
+                                if (i == 10) {
+                                    if (ImGui::Button("delete last character") == true) {
+                                        s1232.pop_back();
+                                    }
+                                    continue;
+                                }
+                                ImGui::Spacing();
+                                if (ImGui::Button(TempBus23) == true) {
+                                    int Kesy = i;
+                                    s1232 = s1232 + std::to_string(Kesy);
+                                }
+                            }
 
-                           if (ImGui::Button("Go Back") == true) {
-                               const char* TempBus = NULL;
-                               s1232 = "";
-                               Tabs = 1;
-                           }
-                       }
-                   }
+                            if (ImGui::Button("Try Password") == true) {
+                                s1232 = TempBus;
+                                if (s1232 == "1") {//337) {
+                                    if (Standart1337Mode == true)MessageBox(NULL, L"Already entered", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                    else
+                                    {
+                                        Standart1337Mode = true;
+                                        un1337 = true;
+                                        MessageBox(NULL, L"Old Version now Active", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (s1232 == "123123") {
+                                        if (DebugModeU2 == true)if (Standart1337Mode == true)MessageBox(NULL, L"Already entered", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                        else
+                                        {
+                                            DebugModeU2 = true;
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        if (s1232 == "133769420") {
+                                            if (Passright == true)if (Standart1337Mode == true)MessageBox(NULL, L"Already entered", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                            else
+                                            {
+                                                Passright = true;
+                                                d3344(0, "https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus");
+                                                ShellExecute(0, 0, L"https://github.com/DumbDev69420/safe-Punjabi_tool_noVirus", 0, 0, SW_SHOW);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            s1232 = "";
+                                            MessageBox(NULL, L"Nope wrong", L"?????????", MB_OK | MB_SYSTEMMODAL);
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (ImGui::Button("Go Back") == true) {
+                                const char* TempBus = NULL;
+                                s1232 = "";
+                                Tabs = 1;
+                            }
+                        }
+                    }
                     break;
 
                 case 4:
@@ -2403,7 +2407,7 @@ void menu::render()
                         ImGui::Spacing();
                         ImGui::Checkbox("Turn on Menu Checks (Improves perfomance but sometimes the check fails, if then go into ingame menu and fixed)", &MenuChecks);
                         ImGui::Spacing();
-                        ImGui::Checkbox("Auto Check for Patched bytes at start of Gam", &AutoCheckBytes);
+                        ImGui::Checkbox("Auto Check for Patched bytes at start of Game", &AutoCheckBytes);
                     }
 
                     break;
@@ -2430,18 +2434,18 @@ void menu::render()
             if (GetAsyncKeyState(VK_F4) & 1)AutoStart = false;
 
             if (lastAddra12 == lastAddra1) {
-                        ReadProcessMemory(hProcess, (BYTE*)Positionaddrx, &x16, sizeof(x16), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)Positionaddry, &y16, sizeof(y16), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)Positionaddrz, &z16, sizeof(z16), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &x161, sizeof(x161), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &z161, sizeof(z161), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &y161, sizeof(y161), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)CarObjectx, &x1621, sizeof(x1621), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)CarObjecty, &y1621, sizeof(y1621), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)CarObjectz, &z1621, sizeof(z1621), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &x241, sizeof(x241), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &y241, sizeof(y241), 0);
-                        ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddrz, &z241, sizeof(z241), 0);
+                ReadProcessMemory(hProcess, (BYTE*)Positionaddrx, &x16, sizeof(x16), 0);
+                ReadProcessMemory(hProcess, (BYTE*)Positionaddry, &y16, sizeof(y16), 0);
+                ReadProcessMemory(hProcess, (BYTE*)Positionaddrz, &z16, sizeof(z16), 0);
+                ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &x161, sizeof(x161), 0);
+                ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &z161, sizeof(z161), 0);
+                ReadProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &y161, sizeof(y161), 0);
+                ReadProcessMemory(hProcess, (BYTE*)CarObjectx, &x1621, sizeof(x1621), 0);
+                ReadProcessMemory(hProcess, (BYTE*)CarObjecty, &y1621, sizeof(y1621), 0);
+                ReadProcessMemory(hProcess, (BYTE*)CarObjectz, &z1621, sizeof(z1621), 0);
+                ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddrx, &x241, sizeof(x241), 0);
+                ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddry, &y241, sizeof(y241), 0);
+                ReadProcessMemory(hProcess, (BYTE*)RotationPositionaddrz, &z241, sizeof(z241), 0);
                 if (MainMenu == false) {
                     if (MenuSd == false) {
                         if (Standart1337Mode == false) {
@@ -2459,7 +2463,7 @@ void menu::render()
                             }
                         }
                     }
-                   
+
                 }
             }
             //Checks if the Process is still Open
@@ -2496,38 +2500,38 @@ void menu::render()
 
 
                 if (lastAddra1 != lastAddra12) {
-                        TickFirst5 = 0;
-                        TickLast5 = 0;
-                        LoopTp = false;
-                        ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(&lastAddra1), 0);
-                        LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
-                        lastAddra12 = lastAddra1;
-                        Positionaddrx = LocalPlayerCar + 0x50;
-                        Positionaddrz = LocalPlayerCar + 0x54;
-                        Positionaddry = LocalPlayerCar + 0x58;
-                        VelcPositionaddrx = LocalPlayerCar + 0x160;
-                        VelcPositionaddrz = LocalPlayerCar + 0x164;
-                        VelcPositionaddry = LocalPlayerCar + 0x168;
-                        RotationPositionaddrx = LocalPlayerCar + 0x20;
-                        RotationPositionaddrz = LocalPlayerCar + 0x24;
-                        RotationPositionaddry = LocalPlayerCar + 0x28;
-                        ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(&CarObject), 0);
-                        CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
-                        CarObjectz = CarObjectx + 0x4;
-                        CarObjecty = CarObjectx + 0x8;
-                        CurrentEntityfollow = 0;
-                            AutoWin = false;
-                            Fov1 = 499.0f;
-                        if (Standart1337Mode == false) {
-                            Spawnini = false;
-                            ffs = true;
-                            DerefEntitys();
-                            EntityLis2t();
-                        }    
-                        if (DebugMode == true) {
-                            std::cout << "[DEBUG] Level has been changed \n";
-                            std::cout << "[DEBUG] LocalPlayer -> 0x" << std::hex << LocalPlayerCar << "\n";
-                        }
+                    TickFirst5 = 0;
+                    TickLast5 = 0;
+                    LoopTp = false;
+                    ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(&lastAddra1), 0);
+                    LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
+                    lastAddra12 = lastAddra1;
+                    Positionaddrx = LocalPlayerCar + 0x50;
+                    Positionaddrz = LocalPlayerCar + 0x54;
+                    Positionaddry = LocalPlayerCar + 0x58;
+                    VelcPositionaddrx = LocalPlayerCar + 0x160;
+                    VelcPositionaddrz = LocalPlayerCar + 0x164;
+                    VelcPositionaddry = LocalPlayerCar + 0x168;
+                    RotationPositionaddrx = LocalPlayerCar + 0x20;
+                    RotationPositionaddrz = LocalPlayerCar + 0x24;
+                    RotationPositionaddry = LocalPlayerCar + 0x28;
+                    ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(&CarObject), 0);
+                    CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
+                    CarObjectz = CarObjectx + 0x4;
+                    CarObjecty = CarObjectx + 0x8;
+                    CurrentEntityfollow = 0;
+                    AutoWin = false;
+                    Fov1 = 499.0f;
+                    if (Standart1337Mode == false) {
+                        Spawnini = false;
+                        ffs = true;
+                        DerefEntitys();
+                        EntityLis2t();
+                    }
+                    if (DebugMode == true) {
+                        std::cout << "[DEBUG] Level has been changed \n";
+                        std::cout << "[DEBUG] LocalPlayer -> 0x" << std::hex << LocalPlayerCar << "\n";
+                    }
                 }
                 else
                 {
@@ -2589,14 +2593,14 @@ void menu::render()
             }
             else
             {
-                if (MenuSd == true|| MainMenu == true)
+                if (MenuSd == true || MainMenu == true)
                 {
                     MenuSd = false;
                     MainMenu = false;
                 }
             }
 
-              
+
 
             if (ffs == true) {
                 if (TickFirst4 == 0) {
@@ -2714,7 +2718,7 @@ void menu::render()
                     getEntityCount();
                 }
             }
-            
+
 
 
 
@@ -2944,18 +2948,18 @@ void menu::render()
                                 z16 = z24;
                                 int Valc;
                                 Valc = 2341507216;
-                                Point22 = moduleBase + 0x15CA0A2;//0x15B8652;
+                                Point22 = moduleBase + 0x16035A2;//0x15CA0A2;//0x15B8652;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Valc = 2341507216;
-                                Point22 = moduleBase + 0x15CA0A8;//0x15B8658;
+                                Point22 = moduleBase + 0x16035A8;//0x15CA0A8;//0x15B8658;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Valc = 1099993232;
-                                Point22 = moduleBase + 0x15CA0AE;//0x15B865E;
+                                Point22 = moduleBase + 0x16035AE;//0x15CA0AE;//0x15B865E;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x14, sizeof(x14), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y14, sizeof(y14), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectz, &z14, sizeof(z14), 0);
-                                Point22 = moduleBase + 0x16D066E;
+                                Point22 = moduleBase + 0x1709B7E;//0x16D066E;
                                 Valc = 2425393296;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
 
@@ -2967,20 +2971,20 @@ void menu::render()
                             else
                             {
                                 int Valc;
-                                Point22 = moduleBase + 0x15CA0A2;//0x15B8242;
+                                Point22 = moduleBase + 0x16035A2;//0x15B8242;
                                 ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = 2337292681;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);//0x15B8CDC
-                                    Valc = 2337554825;
-                                    Point22 = moduleBase + 0x15CA0A8;//0x15B8248; 
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = 1096302985;
-                                    Point22 = moduleBase + 0x15CA0AE;//0x15B824E;Asphalt8.exe+ 
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Point22 = moduleBase + 0x16D066E;//0x16BFBCE;
-                                    Valc = 541135119;
-                                    WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
-                                    Valc = NULL;
+                                Valc = 2337292681;
+                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);//0x15B8CDC
+                                Valc = 2337554825;
+                                Point22 = moduleBase + 0x16035A8;//0x15B8248; 
+                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                Valc = 1096302985;
+                                Point22 = moduleBase + 0x16035AE;//0x15B824E;Asphalt8.exe+ 
+                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                Point22 = moduleBase + 0x1709B7E;//0x16BFBCE;
+                                Valc = 541135119;
+                                WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
+                                Valc = NULL;
                                 GhostInit = false;
                             }
                         }
@@ -3030,10 +3034,10 @@ void menu::render()
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Point22 = moduleBase + 0x15CA72F;/
                             */
-                            tm2p = moduleBase + 0x15CA6E7;//0x15CA736;//0x15B8CD8;
+                            tm2p = moduleBase + 0x1603C10;// 0x15CA6E7;//0x15CA736;//0x15B8CD8;
                             DSDsdsd1 = 2425393296;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-                            tm2p = moduleBase + 0x15CA710;//0x15CA72F;// 0x15B8CDF;
+                            tm2p = moduleBase + 0x1603C0C;//0x15CA710;//0x15CA72F;// 0x15B8CDF; + 29
                             DSDsdsd1 = 2425393296;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
                             NoTpBackini = true;
@@ -3047,10 +3051,10 @@ void menu::render()
                             NoTpBackini = false;
                             uintptr_t tm2p;
                             int DSDsdsd1;
-                            tm2p = moduleBase + 0x15CA6E7;
-                            DSDsdsd1 = 541069583;
+                            tm2p = moduleBase + 0x1603C10;
+                            DSDsdsd1 = 1077940495;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-                            tm2p = moduleBase + 0x15CA710;
+                            tm2p = moduleBase + 0x1603C0C;
                             DSDsdsd1 = 1349521679;
                             WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
                             tm2p = NULL;
@@ -3097,22 +3101,22 @@ void menu::render()
                     }
                 }
             }
-            
 
-            
+
+
         }
         Sleep(TickBest);
     }
     else
     {
-    if (MessageBoxW(NULL, L"Are you sure you want to close da hacckk?", L"?????????", MB_YESNO | MB_SYSTEMMODAL) == 7) {
-        globals.active = true;
-        if (Start_Cheat == false)goto stas;
-        else
-        {
-            goto norm;
+        if (MessageBoxW(NULL, L"Are you sure you want to close da hacckk?", L"?????????", MB_YESNO | MB_SYSTEMMODAL) == 7) {
+            globals.active = true;
+            if (Start_Cheat == false)goto stas;
+            else
+            {
+                goto norm;
+            }
         }
-    }
         exit(0);
     }
 
