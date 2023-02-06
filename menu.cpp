@@ -1125,8 +1125,8 @@ void CheckPatchedBytes() {
     //Ghostmode off
 
 
-
-    Point22 = moduleBase + 0x16045E2;//0x15B8242;
+    
+    Point22 = moduleBase + 0x16045E2;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 1095780233)
     {
@@ -1139,13 +1139,14 @@ void CheckPatchedBytes() {
         Point22 = moduleBase + 0x16045E8;//0x15B8248; 
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = 1096302985;
-        Point22 = moduleBase + 0x16045E;//0x15B824E;Asphalt8.exe+ 
+        Point22 = moduleBase + 0x16045EE;//0x15B824E;Asphalt8.exe+ 
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Point22 = moduleBase + 0x170ABAE;//0x16BFBCE;
         Valc = 541135119;
         WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
         Valc = NULL;
     }
+    
 
     //unlimited Nitro off
 
@@ -1160,17 +1161,17 @@ void CheckPatchedBytes() {
     //PatchTpBack off
 
 
-    Point22 = moduleBase + 0x160328C;//0x15B8CDF;//0x15B88B7;
+    Point22 = moduleBase + 0x1604C4C;//0x15B8CDF;//0x15B88B7;
     ReadProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
     if (Valc != 109789526)
     {
         NoTpBackini = false;
         uintptr_t tm2p;
         int DSDsdsd1;
-        tm2p = moduleBase + 0x1604C4C;
+        tm2p = moduleBase + 0x1604C50;
         DSDsdsd1 = 1077940495;
         WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
-        tm2p = moduleBase + 0x1604C50;
+        tm2p = moduleBase + 0x1604C4C;
         DSDsdsd1 = 1349521679;
         WriteProcessMemory(hProcess, (BYTE*)tm2p, &DSDsdsd1, sizeof(DSDsdsd1), 0);
         tm2p = NULL;
@@ -2984,7 +2985,7 @@ void menu::render()
                                 Point22 = moduleBase + 0x16045E8;//0x15CA0A8;//0x15B8658;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Valc = 1099993232;
-                                Point22 = moduleBase + 0x16045E;//0x15CA0AE;//0x15B865E;
+                                Point22 = moduleBase + 0x16045EE;//0x15CA0AE;//0x15B865E;
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjectx, &x14, sizeof(x14), 0);
                                 WriteProcessMemory(hProcess, (BYTE*)CarObjecty, &y14, sizeof(y14), 0);
@@ -3009,7 +3010,7 @@ void menu::render()
                                 Point22 = moduleBase + 0x16045E8;//0x15B8248; 
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Valc = 1096302985;
-                                Point22 = moduleBase + 0x16045E;//0x15B824E;Asphalt8.exe+ 
+                                Point22 = moduleBase + 0x16045EE;//0x15B824E;Asphalt8.exe+ 
                                 WriteProcessMemory(hProcess, (BYTE*)Point22, &Valc, sizeof(Valc), 0);
                                 Point22 = moduleBase + 0x170ABAE;//0x16BFBCE;
                                 Valc = 541135119;
