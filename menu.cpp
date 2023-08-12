@@ -50,6 +50,11 @@ int TickLast2;
 int TickFirs1t2;
 int TickLas1t2;
 
+
+int TicklastEngine = 0;
+int TickWinInstant = 0;
+int WinState = 0;
+
 DWORD TickBest = 2;
 
 int TickFirst22;
@@ -84,7 +89,7 @@ private:
 class Vector3Dif
 {
 public:
-    float x, z, y;
+    float x = 0.0f, z = 0.0f, y = 0.0f;
 
 private:
 
@@ -98,14 +103,16 @@ unsigned int Camera2 = 0x48;
 std::vector<unsigned int>ClassOfCarOffsets = { 0x10, 0x10, 0x568, 0x8, 0x10, 0x70, 0x0 };
 std::vector<unsigned int>RacePlaceOffsets = { 0x90, 0x0, 0x50, 0x50, 0x20, 0x3f8, 0x20 , 0x470, 0xf94 };
 std::vector<unsigned int>OffsetsOfOffset12 = { 0x10, 0x10, 0x568 };
+std::vector<unsigned int>OffsetsEnginePlace = { 0x10, 0x48, 0x670 };
 std::vector<unsigned int>CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
 std::vector<unsigned int>Offsets22 = { 0x60, 0x100, 0x48, 0x558, 0x18, 0x50 };
-std::vector<unsigned int>CredsOfs = { 0x50, 0x618 };
+std::vector<unsigned int>CredsOfs = { 0x50, 0x610 };
 std::vector<unsigned int>C1redsOfs = { 0x8, 0x28, 0x148, 0x28, 0x18, 0x78, 0x0 };
 std::vector<unsigned int>EntityList = { 0x20, 0x78, 0x20,Dsd , 0x490, 0x0 };
 std::vector<unsigned int>EntityList20 = { 0x20, 0x78, 0x20 , 0x8 , 0x490, 0x0 };
 std::vector<unsigned int>OffMenu = { 0x10, 0x8, 0x70, 0x30, 0x1a8, 0x0};//0x10, 0x8, 0x220, 0x58, 0x10, 0x1a8, 0x560 };
-std::vector<unsigned int>JoeBidden = { 0x34, 0x2c, 0x20, 0x18 };
+std::vector<unsigned int>JoeBidden = { 0x110, 0x68, 0x58, 0x40, 0x28 };
+std::vector<unsigned int>JoeBidden55 = { 0x110, 0x68, 0x58, 0x40, 0x28, 0x0 };
 //"Asphalt8_x64.exe" + 01DB4CF0
 
 float a3, a4, a5 = 0.1f;
@@ -125,8 +132,10 @@ uintptr_t lastAddra12;
 uintptr_t CredsBase;
 uintptr_t PointerToCurrentLevel;
 uintptr_t LocalPlayerCar;
+uintptr_t EnginePlaceCalc = 0x0;
 uintptr_t CarObject, CarObjectx, CarObjecty, CarObjectz;
 uintptr_t AddrsOfCam;
+uintptr_t GameEngine = 0x0;
 uintptr_t LevelCar;
 uintptr_t moduleBase;
 uintptr_t moduleBase2;
@@ -147,6 +156,7 @@ LPCWSTR ses23232;
 uintptr_t CreditAddress;
 uintptr_t MenuTextAddress;
 uintptr_t CurrentCamera;
+uintptr_t CamGeneral = 0x0;
 uintptr_t CreditAddress2;
 uintptr_t LocalPlayerPlaceRace;
 uintptr_t LocalPlayer;
@@ -240,7 +250,7 @@ bool FlyHac2k = false;
 bool fdf = false;
 
 
-
+int LocalPlayerPlace = 0;
 float x16, y16, z16;
 float x14, y14, z14;
 float x24, y24, z24;
@@ -334,15 +344,16 @@ struct Entity
 
 namespace ReplaceAbleOffsets {
 
-    uintptr_t NitroBase = 0xB1B9A4;
+    uintptr_t NitroBase = 0x0;
     uintptr_t GhostBase = 0x15F0F12;
     uintptr_t GhostBaseDif = 0x16F6B2E;
     uintptr_t PatchTpBackBase = 0x15F157C;
     uintptr_t FovChangerBase = 0x14AF920;
     uintptr_t WorldPointerBase = 0x1E07820;
+    uintptr_t GameEnginePtr = 0x0;
     uintptr_t CameraPointerBase = 0x1E09440;
     uintptr_t CreditPointerBase = 0x1E48380;
-    uintptr_t EntityListPointerBase = 0x1E484D0;
+    uintptr_t EntityListPointerBase = 0x01EA12D8;
 
     void AutoSigFind(HANDLE proc, uintptr_t moduleBase) {
 
@@ -380,7 +391,7 @@ void FreeEverything() {
 
     TickFirst = NULL;
     TickLast = NULL;
-
+    GameEngine = NULL;
     TickFirst42 = NULL;
     TickLast42 = NULL;
 
@@ -393,7 +404,7 @@ void FreeEverything() {
 
     TickFirst4 = NULL;
     TickLast4 = NULL;
-
+    EnginePlaceCalc = 0x0;
     TickFirst41 = NULL;
     TickLast41 = NULL;
 
@@ -562,6 +573,15 @@ void FreeEverything() {
 }
      
 
+
+Vector3Dif PlayerPosCopy{};
+Vector3Dif PlayerVelCopy{};
+Vector3Dif PlayerVel0{};
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -653,6 +673,8 @@ namespace Saver {
 
 }
 
+size_t stringLength(const char* str);
+
 
 class ParameterShit {
 public:
@@ -692,7 +714,9 @@ public:
     uintptr_t EditAddrs = 0x0;
     bool WasRead = false;
     std::string ModuleName = "No Module Name :(";
-
+    bool SkipFirstFind = false;
+    bool GoToAddressFromStart = false;
+    uintptr_t EditAddrdif = 0x0;
 
     void DefineObjects(HANDLE TargetProcess1, uintptr_t Start1, uintptr_t Size, const char* Signature, const char* Mask, uintptr_t* AddressToReturnTo, bool ReadMemory = false, bool ReturnOffsetMinusBaseAddress = false, uintptr_t EditAddressBy = 0x0) {
         TargetProcess = TargetProcess1;
@@ -769,7 +793,7 @@ namespace SigShit {
     }
 
     // for finding a signature/pattern in memory of another process
-    uintptr_t FindSignature64(HANDLE TargetProcess, uintptr_t start, uintptr_t size, const char* sig, const char* mask)
+    uintptr_t FindSignature64(HANDLE TargetProcess, uintptr_t start, uintptr_t size, const char* sig, const char* mask, bool SkipFirstFind = false)
     {
         BYTE* data = new BYTE[size];
         SIZE_T bytesRead;
@@ -779,6 +803,10 @@ namespace SigShit {
         for (DWORD i = 0; i < size; i++)
         {
             if (MemoryCompare((const BYTE*)(data + i), (const BYTE*)sig, mask)) {
+                if (SkipFirstFind == true) {
+                    SkipFirstFind = false;
+                    continue;
+                }
                 return start + i;
             }
         }
@@ -907,12 +935,22 @@ namespace SigShit {
     {
         uintptr_t Dot = 0x0;
 
-        Dot = SigShit::FindSignature64(Amk.TargetProcess, Amk.start, Amk.size, Amk.sig, Amk.mask) + Amk.EditAddrs;
+        Dot = SigShit::FindSignature64(Amk.TargetProcess, Amk.start, Amk.size, Amk.sig, Amk.mask, Amk.SkipFirstFind) + Amk.EditAddrs;
+
+        if (Amk.ModuleName == "EntityList_Pointer") {
+            std::cout << "Address of EntityList:" << std::hex << Dot << "\n";
+        }
 
         if (Dot - Amk.EditAddrs == 0x0) {
             std::cout << "Couldnt Find Address for {" + Amk.ModuleName + "}\n";
             *Amk.returnaddrs = 0x0;
             return;
+        }
+
+        if (Amk.GoToAddressFromStart == true) {
+            volatile uintptr_t Sfd;
+            Sfd = stringLength(Amk.mask) * 0x8;
+            Dot = (Dot + Sfd);
         }
 
         if (Amk.ReadMem == false) {
@@ -975,7 +1013,14 @@ namespace SigShit {
         }
 
         if (Amk.MinusBase == true) {
-            *Amk.returnaddrs = (Dot - Amk.start);
+            if (Amk.EditAddrdif != 0x0) {
+                *Amk.returnaddrs = (Dot - Amk.start + (Amk.EditAddrs - Amk.EditAddrdif));
+            }
+            else
+            {
+                *Amk.returnaddrs = (Dot - Amk.start);
+            }
+            
             Amk.WasRead = true;
             return;
         }
@@ -1058,6 +1103,9 @@ void EntityLis2t() {
             return;
         }
     }
+
+
+
 
     int Temp212;
     float TestFloat = 0.0f;
@@ -1205,6 +1253,13 @@ int getEntityCount() {
 float X5, X6;
 
 
+bool FlyByMouse = true;
+
+
+
+
+
+
 
 void FlyHack(float CamX, float CamY, float CamZ, float PosX, float PosZ, float PosY) {
 
@@ -1274,15 +1329,6 @@ void FlyHack(float CamX, float CamY, float CamZ, float PosX, float PosZ, float P
 
     if (GetAsyncKeyState(87))
     {
-        /*ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].P1ositionaddrx, &ToPoland[Count232].x16, sizeof(ToPoland[Count232].x16), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].P1ositionaddry, &ToPoland[Count232].y16, sizeof(ToPoland[Count232].y16), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].P1ositionaddrz, &ToPoland[Count232].z16, sizeof(ToPoland[Count232].z16), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].V1elcPositionaddrx, &ToPoland[Count232].x161, sizeof(ToPoland[Count232].x161), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].V1elcPositionaddrz, &ToPoland[Count232].z161, sizeof(ToPoland[Count232].z161), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].V1elcPositionaddry, &ToPoland[Count232].y161, sizeof(ToPoland[Count232].y161), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].R1otationPositionaddrx, &ToPoland[Count232].x241, sizeof(ToPoland[Count232].x241), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].R1otationPositionaddry, &ToPoland[Count232].y241, sizeof(ToPoland[Count232].y241), 0);
-                                ReadProcessMemory(hProcess, (BYTE*)ToPoland[Count232].R1otationPositionaddrz, &ToPoland[Count232].z241, sizeof(ToPoland[Count232].z241), 0);*/
         X = PosX + CamX;
         Y = PosY + CamY;
         Z = PosZ + CamZ;
@@ -1303,6 +1349,62 @@ void FlyHack(float CamX, float CamY, float CamZ, float PosX, float PosZ, float P
 
 
 }
+
+
+/*
+
+void FlyHack(float CamX, float CamY, float CamZ, float PosX, float PosZ, float PosY) {
+    POINT mousePos;
+    GetCursorPos(&mousePos);
+
+    float X;
+    float Y;
+    float Z;
+
+    float sensitivity = 0.111f; // Adjust the sensitivity as needed
+
+
+    X6 = (mousePos.x / GetSystemMetrics(SM_CXSCREEN) / 2 + 100 / 10);
+
+    X5 = (mousePos.y / GetSystemMetrics(SM_CYSCREEN) / 2 + 100 / 10);
+
+
+    y161 = -0.001f;
+    WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddry, &y161, sizeof(y161), 0);
+    z161 = -0.001f;
+    WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrz, &z161, sizeof(z161), 0);
+    x161 = -0.001f;
+    WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &x161, sizeof(x161), 0);
+
+       //Forwards w
+    if (GetAsyncKeyState(87))
+    {
+        X = PosX + X6;
+        Y = PosY + X5;
+        Z = PosZ + CamZ;
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &X, sizeof(X), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Y, sizeof(Y), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &Z, sizeof(Z), 0);
+    }
+
+    //Backwards s
+    if (GetAsyncKeyState(83))
+    {
+        X = PosX - X6;
+        Y = PosY - X5;
+        Z = PosZ - CamZ;
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &X, sizeof(X), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Y, sizeof(Y), 0);
+        WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &Z, sizeof(Z), 0);
+    }
+
+
+}
+
+
+
+*/
+
 
 void d3344(HWND hwnd, const std::string& s) {
     if (&s == 0x0)return;
@@ -1456,7 +1558,8 @@ void SameAddress() {
     SpotifySongAddress = tmpdt;
     */
 
-    int OverDupe = FindDMAAddy32(hSpotify, firstAddr, JoeBidden);
+    uintptr_t OverDupe = FindDMAAddy(hSpotify, firstAddr, JoeBidden);
+    ReadProcessMemory(hSpotify, (BYTE*)OverDupe, &OverDupe, sizeof(OverDupe), 0);
     SpotifySongAddress = OverDupe;
 
     if (SpotifySongAddress != SpotifyTextAddress) {
@@ -1485,19 +1588,30 @@ void MoveTo231(float X, float Y) {
 
 
 bool AddrFound = false;
-DWORD Pointer = 0x99748D4;// 0x99748D4;
+uintptr_t Pointer = 0x99748D4;// 0x99748D4;
 void AutoFixPtr() {
     if (AddrFound == true)return;
-    const char* Sig = "\xa1\x00\x00\x00\x00\x5d\xc3\xcc\xcc\xcc\xcc\xcc\xcc\x55\x89\xe5\x53\x57\x56\x83\xec\x00\x89\xce\x8b\x7d\x00\x8b\x5d\x00\xa1";
-    const char* Mask = "x????xxxxxxxxxxxxxxxx?xxxx?xx?x";
-    DWORD SizeOfSpotify = 0x0;
-    SigShit::GetProcessMemoryInfoe(hSpotify, &SizeOfSpotify);
-    ParameterShit Shit = { hSpotify, ModuleBaseSpotify, SizeOfSpotify,Sig, Mask, &Pointer ,true, true, 0x1 };
-    SigShit::DebugPrint(Shit);
-    if (*Shit.returnaddrs != 0x0) {
+    const char* Sig = "\x48\x8b\x05\x00\x00\x00\x00\xc3\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\x41\x56\x56\x57\x53\x48\x83\xec\x00\x4c\x89\xc7\x48\x89\xd3\x48\x89\xce\x48\x8d\x05";
+    const char* Mask = "xxx????xxxxxxxxxxxxxxxxx?xxxxxxxxxxxx";
+    uintptr_t SizeOfSpotify = 0x0;
+    SigShit::GetProcessMemoryInfoeX64(hSpotify, &SizeOfSpotify);
+    std::cout << SizeOfSpotify << "\n";
+    ParameterShit64 Shit = { hSpotify, ModuleBaseSpotify, SizeOfSpotify,Sig, Mask, &Pointer ,true, true, 0x2 };
+    SigShit::ReadAddrbackwards = true;
+    SigShit::DebugPrint64(Shit);
+    SigShit::ReadAddrbackwards = false;
+    firstAddr = ModuleBaseSpotify + Pointer;
+    if (*Shit.returnaddrs >= 0x1000) {
+        if (FindDMAAddy(hSpotify, firstAddr, JoeBidden) == 0x0)return;
         std::cout << "Pointer of Spotify Found!\n";
+        std::cout << "Pointer:" << std::hex << *Shit.returnaddrs << "\n";
+        AddrFound = true;
     }
-    AddrFound = true;
+    else
+    {
+        std::cout << "Pointer of Spotify not Found!\n";
+    }
+    
 }
 
 
@@ -1509,30 +1623,14 @@ void GetCurrentSong() {
             SProcID = GetProcId(L"Spotify.exe");
             hSpotify = 0;
             hSpotify = OpenProcess(PROCESS_ALL_ACCESS, 0, SProcID);
+            if (SProcID == 0 || hSpotify == 0) {
+                SongFirst = "Spotify Closed";
+                return;
+            }
             ModuleBaseSpotify = GetModuleBaseAddress(SProcID, L"libcef.dll");
             firstAddr = ModuleBaseSpotify + Pointer;
-            //SpotifyTextAddress = FindDMAAddy(hSpotify, firstAddr, JoeBidden);
-            /*int tmpdt = 0;
-            uintptr_t tfd = 0;
-            if(ReadProcessMemory(hSpotify, (BYTE*)firstAddr, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
-            tmpdt = tfd;
-            //std::cout << "[DEBUG] 1Address: 0x" << std::hex << tmpdt << "\n";
-            if (ReadProcessMemory(hSpotify, (BYTE*)tmpdt + 0x34, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
-            tmpdt = tfd;
-            //std::cout << "[DEBUG] 2Address: 0x" << std::hex << tmpdt << "\n";
-            if (ReadProcessMemory(hSpotify, (BYTE*)tmpdt + 0x30, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
-            tmpdt = tfd;
-            //std::cout << "[DEBUG] 3Address: 0x" << std::hex << tmpdt << "\n";
-            if (ReadProcessMemory(hSpotify, (BYTE*)tmpdt + 0x20, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
-            tmpdt = tfd;
-            //std::cout << "[DEBUG] 4Address: 0x" << std::hex << tmpdt << "\n";
-            if (ReadProcessMemory(hSpotify, (BYTE*)tmpdt + 0x18, &tfd, sizeof(tfd), 0) == false)std::cout << "[DEBUG] Couldnt read from Address: 0x" << std::hex << firstAddr << "\n";
-            tmpdt = tfd;
-            */
-
-            //SpotifyTextAddress = tmpdt;
-            int OverDupe = FindDMAAddy32(hSpotify, firstAddr, JoeBidden);
-            if (ReadProcessMemory(hSpotify, (BYTE*)OverDupe + 0x18, &SpotifySongAddress, sizeof(OverDupe), 0) == false) {
+            uintptr_t OverDupe = FindDMAAddy(hSpotify, firstAddr, JoeBidden);
+            if (ReadProcessMemory(hSpotify, (BYTE*)OverDupe, &SpotifySongAddress, sizeof(OverDupe), 0) == false) {
                 AutoFixPtr();
                 Spotifyini = false;
                 return;
@@ -1678,6 +1776,20 @@ void NullOutBytes(uintptr_t Address1c,int Cycles) {
     csd2 = 0;
 }
 */
+
+
+size_t stringLength(const char* str) {
+    size_t length = 0;
+    while (str[length] != '\0') {
+        if (length == 1600)break;
+        
+        length++;
+    }
+    return length;
+}
+
+
+
 bool Outdated = false;
 bool TempFile = false;
 
@@ -1706,16 +1818,20 @@ void CheckPatchedBytes(bool End = false) {
 
 
 
-            LPCSTR Signature = "\x41\x89\x00\x41\x8b\xc0";
-            LPCSTR Mask = "xxxxxx";
+            LPCSTR Signature = "\x33\x0d\x00\x00\x00\x00\x41\x89\x08\x41\x8b\xc8";
+            LPCSTR Mask = "xx????xxxxxx";
+
+
             uintptr_t DSize = 0;
             SigShit::GetProcessMemoryInfoeX64(hProcess, &DSize);
 
-            NewBugatti1 = { hProcess , moduleBase, DSize, Signature, Mask, &ReplaceAbleOffsets::NitroBase };
+            NewBugatti1 = { hProcess , moduleBase, DSize, Signature, Mask, &ReplaceAbleOffsets::NitroBase  };
             NewBugatti1.ModuleName = "Nitro_switch_Value_Function";
-            NewBugatti1.EditAddrs = 0x0;
+            NewBugatti1.EditAddrs = -0x5A;
             NewBugatti1.ReadMem = false;
             NewBugatti1.MinusBase = true;
+            NewBugatti1.SkipFirstFind = false;
+            NewBugatti1.GoToAddressFromStart = true;
 
             SigShit::DebugPrint64(NewBugatti1);
 
@@ -1726,7 +1842,10 @@ void CheckPatchedBytes(bool End = false) {
                 globals.active = false;
                 return;
             }
+
+
             NitroAddress = moduleBase + ReplaceAbleOffsets::NitroBase;
+            NewBugatti1.GoToAddressFromStart = false;
 
             Signature = "\x89\x41\x00\x8b\x42\x00\x89\x41\x00\x8b\x42\x00\x89\x41\x00\x41\x8b\x00\x89\x41\x00\x41\x8b\x40\x00\x89\x41\x00\x41\x8b\x40\x00\x89\x41\x00\x41\x8b\x40\x00\x89\x41\x00\xc3\xcc\xcc\xcc\x48\x83\xec";
             Mask = "xx?xx?xx?xx?xx?xxxxx?xxx?xx?xxx?xx?xxx?xx?xxxxxxx";
@@ -1736,6 +1855,7 @@ void CheckPatchedBytes(bool End = false) {
             NewBugatti1.EditAddrs = 0x0;
             NewBugatti1.ReadMem = false;
             NewBugatti1.MinusBase = true;
+            NewBugatti1.SkipFirstFind = false;
             SigShit::DebugPrint64(NewBugatti1);
 
             Signature = "\x0f\x11\x41\x00\x0f\x10\x42\x00\x0f\x11\x41\x00\x0f\x10\x42\x00\x0f\x11\x41\x00\x0f\x10\x42\x00\x0f\x11\x41\x00\xe9";
@@ -1785,7 +1905,9 @@ void CheckPatchedBytes(bool End = false) {
             SigShit::ReadAddrbackwards = false;
 
 
-
+            if (ReplaceAbleOffsets::WorldPointerBase != 0x0) {
+                ReplaceAbleOffsets::GameEnginePtr = ReplaceAbleOffsets::WorldPointerBase + 0x8;
+            }
 
             //Camera
             Signature = "\x48\x8b\x0d\x00\x00\x00\x00\xe8\x00\x00\x00\x00\x48\x8b\x0d\x00\x00\x00\x00\xb2\x00\xe8\x00\x00\x00\x00\x48\x8b\x0d\x00\x00\x00\x00\xb2";
@@ -1815,16 +1937,18 @@ void CheckPatchedBytes(bool End = false) {
             SigShit::ReadAddrbackwards = false;
 
 
-            Signature = "\x48\x8b\x0d\x00\x00\x00\x00\xe8\x00\x00\x00\x00\x48\x8b\xf0\x4c\x8d\xb7\x00\x00\x00\x00\x49\x8b\x6e\x00\x49\x8b\x1e\x48\x3b\xdd\x74\x00\x90";
-            Mask = "xxx????x????xxxxxx????xxx?xxxxxxx?x";
+            Signature = "\x0a\x45\x00\x74\x00\x48\x8b\xcd\xe8\x00\x00\x00\x00\x48\x8b\x0d";
+            Mask = "xx?x?xxxx????xxx";
 
             NewBugatti1 = { hProcess , moduleBase, DSize, Signature, Mask, &ReplaceAbleOffsets::EntityListPointerBase };
             NewBugatti1.ModuleName = "EntityList_Pointer";
-            NewBugatti1.EditAddrs = 0x2;
+            NewBugatti1.EditAddrs = 0xF;
+            NewBugatti1.EditAddrdif = 0x2;
             NewBugatti1.ReadMem = true;
             NewBugatti1.MinusBase = true;
             SigShit::ReadAddrbackwards = true;
             SigShit::DebugPrint64(NewBugatti1);
+           // ReplaceAbleOffsets::EntityListPointerBase = ReplaceAbleOffsets::EntityListPointerBase + 0xF - 0x2;
             SigShit::ReadAddrbackwards = false;
 
 
@@ -1857,7 +1981,7 @@ void CheckPatchedBytes(bool End = false) {
     ReadProcessMemory(hProcess, (BYTE*)NitroAddress, &Valc, sizeof(Valc), 0);
     if (Valc == 1099993232) {
         InitNitro = false;
-        Valc = 1090554177;
+        Valc = 1091078465;
         WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &Valc, sizeof(Valc), 0);
         std::cout << "Unlimited Nitro is Now off Patched!\n";
     }
@@ -2456,7 +2580,8 @@ void DrawRadar() {
 
         ReadProcessMemory(hProcess, (BYTE*)LocalPlayerPlaceRace, &RacePlace, sizeof(RacePlace), 0);
 
-        tmep = "LocalPlayer";
+
+        tmep = "LocalPlayer " + std::to_string(LocalPlayerPlace);
         // Draw the local player on the radar
         DrawImGuiShit::DrawCircleFilled(Cheat::WindowPos.x + 200, Cheat::WindowPos.y + 200, 4.0f, &Blue, 12);
         DrawImGuiShit::DrawNewText(Cheat::WindowPos.x + 200, Cheat::WindowPos.y + 200, &MrWhite, tmep.c_str());
@@ -3129,6 +3254,7 @@ void menu::render(bool *doned)
                 lastAddra12 = lastAddra1;
                 LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
                 LocalPlayer = FindDMAAddy(hProcess, PointerToCurrentLevel, OffsetsOfOffset12);
+                
                 Dsd = Balls;
                 LocalPlayer2 = LocalPlayer1;
                 Positionaddrx = LocalPlayerCar + 0x50;
@@ -3138,7 +3264,10 @@ void menu::render(bool *doned)
                 VelcPositionaddrz = LocalPlayerCar + 0x164;
                 VelcPositionaddry = LocalPlayerCar + 0x168;
                 AddrsOfCam = moduleBase + ReplaceAbleOffsets::CameraPointerBase;
+                GameEngine = moduleBase + ReplaceAbleOffsets::GameEnginePtr;
+                EnginePlaceCalc = FindDMAAddy(hProcess, GameEngine, OffsetsEnginePlace);
                 ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(CarObject), 0);
+
                 CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                 CarObjectz = CarObjectx + 0x4;
                 CarObjecty = CarObjectx + 0x8;
@@ -3428,6 +3557,14 @@ void menu::render(bool *doned)
                             }
                             ImGui::Spacing();
                             */
+
+                            if (ImGui::Button("TP to SpawnPoint") == true) {
+                                WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &Spawnpointx, sizeof(Spawnpointx), 0);
+                                WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Spawnpointy, sizeof(Spawnpointy), 0);
+                                WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &SpawnPointz, sizeof(SpawnPointz), 0);
+                                WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &PlayerVel0, sizeof(PlayerVel0), 0);
+                            }
+
                             if (ImGui::Button("Teleport all to you") == true) {
                                 for (size_t i = 0; i < getEntityCount(); i++)
                                 {
@@ -3486,7 +3623,7 @@ void menu::render(bool *doned)
                                 CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                                 CarObjectz = CarObjectx + 0x4;
                                 CarObjecty = CarObjectx + 0x8;
-                                int DSDsdsd = 1090554177;
+                                int DSDsdsd = 1091078465;
                                 WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &DSDsdsd, sizeof(DSDsdsd), 0);
                                 DSDsdsd = NULL;
                                 JumpCar = false;
@@ -3568,11 +3705,12 @@ void menu::render(bool *doned)
                                 RotationPositionaddrx = LocalPlayerCar + 0x20;
                                 RotationPositionaddrz = LocalPlayerCar + 0x24;
                                 RotationPositionaddry = LocalPlayerCar + 0x28;
+                                EnginePlaceCalc = FindDMAAddy(hProcess, GameEngine, OffsetsEnginePlace);
                                 ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(CarObject), 0);
                                 CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                                 CarObjectz = CarObjectx + 0x4;
                                 CarObjecty = CarObjectx + 0x8;
-                                int DSDsdsd = 1090554177;
+                                int DSDsdsd = 1091078465;
                                 WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &DSDsdsd, sizeof(DSDsdsd), 0);
                                 DSDsdsd = NULL;
                                 JumpCar = false;
@@ -3909,7 +4047,7 @@ void menu::render(bool *doned)
                         ImGui::Spacing();
                         ImGui::Checkbox("Stop Everyone (in your Render Distance) ", &LoopTp);
                         ImGui::Spacing();
-                        ImGui::Checkbox("Fly Hack Test (not finished version imma make a better one)", &FlyHac2k);
+                        ImGui::Checkbox("Fly Hack Test (B = up, A,D = directions, W,S = Move)", &FlyHac2k);
                         ImGui::Spacing();//CopyOthers CameraObject
                         ImGui::Checkbox("Tp Every entity there is", &LoopTpEvery);
                         ImGui::Spacing();
@@ -3951,7 +4089,8 @@ void menu::render(bool *doned)
                             ImGui::Spacing();
                             if (Fov != Fov1) {
                                 Fov1 = Fov;
-                                for (size_t i = 0; i < 20; i++)
+
+                                for (size_t i = 0; i < 40; i++)
                                 {
 
                                     Camera2 = 0x10 * i;
@@ -3964,30 +4103,9 @@ void menu::render(bool *doned)
                                     }
                                     float FovT = Fov / 100;
                                     WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &FovT, sizeof(FovT), 0);
-                                    /*
-                                    switch (i)
-                                    {
-                                    case 1:
-
-                                        break;
-
-                                    case 2:
-                                        Camera2 = 0x38;
-                                        CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
-                                        CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
-                                        WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &Fov, sizeof(Fov), 0);
-                                        break;
-
-                                    case 3:
-                                        Camera2 = 0x28;
-                                        CameraObject = { 0x60, 0x100, Camera2 , 0x220,0x50 };
-                                        CurrentCamera = FindDMAAddy(hProcess, AddrsOfCam, CameraObject);
-                                        WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &Fov, sizeof(Fov), 0);
-                                        break;
-                                    }
-                                    */
 
                                 }
+
 
                             }
                         }
@@ -4136,7 +4254,7 @@ void menu::render(bool *doned)
             }
             //Checks if the Process is still Open
 
-            InstantCock(x16, z16, Spawnpointx, SpawnPointz, Spawnpointy, Spawnini);
+            //InstantCock(x16, z16, Spawnpointx, SpawnPointz, Spawnpointy, Spawnini);
 
             TickFirst = GetTickCount64();
             if (TickFirst >= TickLast) {
@@ -4173,6 +4291,7 @@ void menu::render(bool *doned)
                     TickFirst5 = 0;
                     TickLast5 = 0;
                     LoopTp = false;
+                    CamGeneral = 0x0;
                     ReadProcessMemory(hProcess, (BYTE*)PointerToCurrentLevel, &lastAddra1, sizeof(&lastAddra1), 0);
                     LocalPlayerPlaceRace = 0x0;
                     LocalPlayerCar = FindDMAAddy(hProcess, PointerToCurrentLevel, ClassOfCarOffsets);
@@ -4186,6 +4305,7 @@ void menu::render(bool *doned)
                     RotationPositionaddrx = LocalPlayerCar + 0x20;
                     RotationPositionaddrz = LocalPlayerCar + 0x24;
                     RotationPositionaddry = LocalPlayerCar + 0x28;
+                    EnginePlaceCalc = 0x0;
                     ReadProcessMemory(hProcess, (BYTE*)AddrsOfCam, &CarObject, sizeof(&CarObject), 0);
                     CarObjectx = FindDMAAddy(hProcess, AddrsOfCam, Offsets22);
                     CarObjectz = CarObjectx + 0x4;
@@ -4217,6 +4337,7 @@ void menu::render(bool *doned)
                         Positionaddrx = LocalPlayerCar + 0x50;
                         Positionaddrz = LocalPlayerCar + 0x54;
                         Positionaddry = LocalPlayerCar + 0x58;
+                        EnginePlaceCalc = 0x0;
                         VelcPositionaddrx = LocalPlayerCar + 0x160;
                         VelcPositionaddrz = LocalPlayerCar + 0x164;
                         VelcPositionaddry = LocalPlayerCar + 0x168;
@@ -4304,6 +4425,7 @@ void menu::render(bool *doned)
                             }
                             float FovT = Fov / 100;
                             WriteProcessMemory(hProcess, (BYTE*)CurrentCamera, &FovT, sizeof(FovT), 0);
+
                         }
                     }
                     Spawnini = true;
@@ -4399,11 +4521,14 @@ void menu::render(bool *doned)
                 {
                     if (InitNitro == true) {
                         InitNitro = false;
-                        int DSDsdsd = 1090554177;
+                        int DSDsdsd = 1091078465;
                         WriteProcessMemory(hProcess, (BYTE*)NitroAddress, &DSDsdsd, sizeof(DSDsdsd), 0);
                         DSDsdsd = NULL;
                     }
                 }
+
+                
+
 
                 if (Flipini == true) {
                     //float xj, yj, zj;xj x1y
@@ -4448,6 +4573,77 @@ void menu::render(bool *doned)
                     Flipini = false;
 
                 }
+
+
+
+                if (TickFirst24 >= TicklastEngine) {
+                    TicklastEngine = TickFirst24 + 500;
+                    EnginePlaceCalc = FindDMAAddy(hProcess, GameEngine, OffsetsEnginePlace);
+                }
+
+
+                if (EnginePlaceCalc != 0x0) {
+                    ReadProcessMemory(hProcess, (BYTE*)EnginePlaceCalc, &LocalPlayerPlace, sizeof(LocalPlayerPlace), 0);
+                }
+
+                if (AutoWin == true) {
+
+                    switch (WinState)
+                    {
+                    case 0:
+                        if (TickFirst24 >= TickWinInstant) {
+                            TickWinInstant = TickFirst24 + 500;
+                            ReadProcessMemory(hProcess, (BYTE*)Positionaddrx, &PlayerPosCopy, sizeof(PlayerPosCopy), 0);
+                            ReadProcessMemory(hProcess, (BYTE*)Positionaddrx, &PlayerVelCopy, sizeof(PlayerVelCopy), 0);
+                            ++WinState;
+                        }
+
+                        break;
+
+
+
+                    case 1:
+
+                        if (TickFirst24 <= TickWinInstant) {
+
+                            WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &Spawnpointx, sizeof(Spawnpointx), 0);
+                            WriteProcessMemory(hProcess, (BYTE*)Positionaddry, &Spawnpointy, sizeof(Spawnpointy), 0);
+                            WriteProcessMemory(hProcess, (BYTE*)Positionaddrz, &SpawnPointz, sizeof(SpawnPointz), 0);
+                            WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &PlayerVel0, sizeof(PlayerVel0), 0);
+
+                        }
+
+                        if (TickFirst24 >= TickWinInstant) {
+                            if (LocalPlayerPlace < 6) {
+                                WinState = 0;
+                                AutoWin = false;
+                            }
+                            else
+                            {
+                                WriteProcessMemory(hProcess, (BYTE*)Positionaddrx, &PlayerPosCopy, sizeof(PlayerPosCopy), 0);
+                                WriteProcessMemory(hProcess, (BYTE*)VelcPositionaddrx, &PlayerVelCopy, sizeof(PlayerVelCopy), 0);
+                            }
+                            AutoWin = false;
+                            WinState = 0;
+                        }
+                        break;
+
+
+
+
+                    default:
+                        WinState = 0;
+                        break;
+                    }
+
+                    
+
+                    
+                    
+
+                }
+                
+
 
                 if (LoopTpEvery == true) {
                     if (getEntityCount() != 1 || getEntityCount() != 0)
